@@ -1,0 +1,17 @@
+.title {
+    color: #aa3355;
+    font-size: 4em;
+    text-align: center;
+}
+
+.red:hover {
+    background-color: azure;
+}
+
+.red p {
+    color: red;
+}
+
+body {
+    background-color: bisque;
+}
