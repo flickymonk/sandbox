@@ -41,7 +41,7 @@ public class ArrayUtils {
         System.out.println(Arrays.toString(unsorted));
 
         //search
-        int[] sorted = Arrays.copyOf(unsorted, 9);
+        int[] sorted = Arrays.copyOf(unsorted, unsorted.length);
         int positionOf9 = Arrays.binarySearch(sorted, 9);
         System.out.println("position of 9 in array: " + positionOf9);
     }

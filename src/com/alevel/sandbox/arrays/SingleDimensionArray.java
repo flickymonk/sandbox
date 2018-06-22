@@ -6,7 +6,7 @@ public class SingleDimensionArray {
 
         int[] a = new int[10]; //index 0-9
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < a.length; i++) {
             a[i] = i;
         }
 
