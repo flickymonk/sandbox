@@ -1,4 +1,4 @@
-package com.alevel.sandbox.helloworld;
+package com.alevel.sandbox.oop;
 
 public class Application {
 

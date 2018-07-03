@@ -1,6 +1,4 @@
-package com.alevel.sandbox.helloworld;
-
-import java.util.Objects;
+package com.alevel.sandbox.oop;
 
 public class Dog extends Pet {
 

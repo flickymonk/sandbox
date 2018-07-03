@@ -1,13 +1,14 @@
-package com.alevel.sandbox.helloworld;
+package com.alevel.sandbox.oop;
 
 import java.util.Objects;
 
-public class Pet {
+public class Pet extends AbstractPet {
 
     private int age;
 
     private String name;
 
+    @Override
     public void say() {
 
     }
