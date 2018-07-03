@@ -14,17 +14,13 @@ public class Application {
 
         System.out.println(name + " is " + age + " years old");
 
-        talkToPet(friend);
+        friend.say();
 
         Pet enemy = new Cat();
         enemy.setName("Pain");
         enemy.setAge(9);
 
-        talkToPet(enemy);
-    }
-
-    public static void talkToPet(Pet pet) {
-        pet.say();
+        enemy.say();
     }
 
 }

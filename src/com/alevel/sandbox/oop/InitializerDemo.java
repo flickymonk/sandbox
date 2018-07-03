@@ -29,12 +29,18 @@ class Initialized {
 
     static {
         staticField = "static field";
+        System.out.println("hello from static init block");
     }
 
     String field;
 
     {
         field = "field";
+        System.out.println("Hello from init block");
+    }
+
+    Initialized() {
+        System.out.println("Hello from constructor");
     }
 
 }
