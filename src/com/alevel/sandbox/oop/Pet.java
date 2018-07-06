@@ -2,16 +2,11 @@ package com.alevel.sandbox.oop;
 
 import java.util.Objects;
 
-public class Pet extends AbstractPet {
+abstract public class Pet implements Speaking {
 
     private int age;
 
     private String name;
-
-    @Override
-    public void say() {
-
-    }
 
     public int getAge() {
         return age;

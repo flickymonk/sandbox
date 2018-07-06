@@ -9,3 +9,4 @@ This is a collection of code examples from <https://a-level.com.ua> course **Jav
 * Control Flow Statements: `src/com/alevel/sandbox/flow`
 * Arrays: `src/com/alevel/sandbox/arrays`
 * Recursion: `src/com/alevel/sandbox/recursion`
+* OOP: `src/com/alevel/sandbox/oop`

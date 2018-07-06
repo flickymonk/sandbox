@@ -19,8 +19,13 @@ public class Application {
         Pet enemy = new Cat();
         enemy.setName("Pain");
         enemy.setAge(9);
-
         enemy.say();
+
+        int howCute = ((Cat) enemy).howCute();
+        System.out.println(howCute);
+
+        Cute cutie = new Cat();
+        System.out.println(cutie.howCute());
     }
 
 }
