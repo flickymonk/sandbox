@@ -28,6 +28,9 @@ public class ExceptionsDemo {
         } catch (ArithmeticException e) {
             System.err.println("Hello from the catch block!");
             e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Generic exceptions");
+            e.printStackTrace();
         } finally {
             System.err.println("I knew it was a bad idea");
         }
