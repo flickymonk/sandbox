@@ -13,3 +13,4 @@ This is a collection of code examples from <https://a-level.com.ua> course **Jav
 * Exceptions: `src/com/alevel/sandbox/exceptions`
 * Collections: `src/com/alevel/sandbox/collections`
 * IO: `src/com/alevel/sandbox/io`
+* Threads: `src/com/alevel/sandbox/threads`

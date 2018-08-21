@@ -14,7 +14,7 @@ public class Hippodrome {
 
         Race race = new Race(RACE_LENGTH);
 
-        Horse[] horses = new Horse[]{
+        Horse[] horses = {
                 new Horse("Horse One", race),
                 new Horse("Horse Two", race),
                 new Horse("Horse Three", race),
