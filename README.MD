@@ -4,13 +4,13 @@ This is a collection of code examples from <https://a-level.com.ua> course **Jav
 
 ## Content of this repo
 
-* Hello World: `src/com/alevel/sandbox/helloworld`
-* Variables, Primitives, Literals, Operators: `src/com/alevel/sandbox/basics`
-* Control Flow Statements: `src/com/alevel/sandbox/flow`
-* Arrays: `src/com/alevel/sandbox/arrays`
-* Recursion: `src/com/alevel/sandbox/recursion`
-* OOP: `src/com/alevel/sandbox/oop`
-* Exceptions: `src/com/alevel/sandbox/exceptions`
-* Collections: `src/com/alevel/sandbox/collections`
-* IO: `src/com/alevel/sandbox/io`
-* Threads: `src/com/alevel/sandbox/threads`
+* Hello World: `core/src/com/alevel/sandbox/helloworld`
+* Variables, Primitives, Literals, Operators: `core/src/com/alevel/sandbox/basics`
+* Control Flow Statements: `core/src/com/alevel/sandbox/flow`
+* Arrays: `core/src/com/alevel/sandbox/arrays`
+* Recursion: `core/src/com/alevel/sandbox/recursion`
+* OOP: `core/src/com/alevel/sandbox/oop`
+* Exceptions: `core/src/com/alevel/sandbox/exceptions`
+* Collections: `core/src/com/alevel/sandbox/collections`
+* IO: `core/src/com/alevel/sandbox/io`
+* Threads: `core/src/com/alevel/sandbox/threads`
