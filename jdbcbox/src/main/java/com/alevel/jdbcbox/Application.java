@@ -33,26 +33,36 @@ public final class Application {
 
             //create and save players
             PlayerRepository playerRepository = new PlayerRepository(connectionSupplier);
-            for (String playerName : inputPlayerNames()) {
+            System.out.println("Input player names:");
+            Scanner scanner = new Scanner(System.in);
+            List<String> names = new LinkedList<>();
+            String name;
+            while (!(name = scanner.nextLine()).isEmpty()) {
+                names.add(name);
+            }
+            for (String playerName : names) {
                 playerRepository.save(new Player(playerName));
             }
+
+            System.out.println("Input player id:");
+            long id = scanner.nextLong();
+            System.out.printf("%2s | %10s | %10s | %10s\n" +
+                            "-----------------------------------------\n",
+                    "id", "name", "rank", "score");
+            printPlayer(playerRepository.get(id));
+            System.out.print("\n\nAll Players:\n");
+
             for (Player player : playerRepository.list()) {
-                System.out.println(player);
+                printPlayer(player);
             }
         } catch (SQLException | StorageException e) {
             panic(e);
         }
     }
 
-    private static List<String> inputPlayerNames() {
-        System.out.println("Input player names:");
-        Scanner scanner = new Scanner(System.in);
-        List<String> names = new LinkedList<>();
-        String name;
-        while (!(name = scanner.nextLine()).isEmpty()) {
-            names.add(name);
-        }
-        return names;
+    private static void printPlayer(Player player) {
+        System.out.printf("%2d | %10s | %10s | %10d\n",
+                player.getId(), player.getNickname(), player.getRank(), player.getScore());
     }
 
     private static void panic(Throwable e) {

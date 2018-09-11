@@ -41,17 +41,12 @@ public final class PlayerRepository implements Repository<Player, Long> {
     public List<Player> list() throws StorageException {
         String sql = "SELECT players.id id, players.name name, ranks.name player_rank, players.score score " +
                 "FROM players INNER JOIN ranks " +
-                "ON players.score >= lower_t AND players.score < upper_t";
+                "ON players.score BETWEEN lower_t AND upper_t - 1";
         try (PreparedStatement statement = connectionSupplier.get().prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Player> players = new LinkedList<>();
             while (resultSet.next()) {
-                players.add(new Player(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("player_rank"),
-                        resultSet.getLong("score")
-                ));
+                players.add(buildPlayerFromResultSet(resultSet));
             }
             return players;
         } catch (SQLException e) {
@@ -60,8 +55,24 @@ public final class PlayerRepository implements Repository<Player, Long> {
     }
 
     @Override
-    public Player get(Long aLong) {
-        return null;
+    public Player get(Long id) throws StorageException {
+        String sql = "SELECT players.id id, players.name name, ranks.name player_rank, players.score score " +
+                "FROM players INNER JOIN ranks " +
+                "ON players.score BETWEEN lower_t AND upper_t - 1 " +
+                "WHERE players.id = ?";
+        try (PreparedStatement statement = connectionSupplier.get().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Player player;
+            if (resultSet.first()) {
+                player = buildPlayerFromResultSet(resultSet);
+            } else {
+                player = null;
+            }
+            return player;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
@@ -73,5 +84,14 @@ public final class PlayerRepository implements Repository<Player, Long> {
         } catch (SQLException e) {
             throw new StorageException(e);
         }
+    }
+
+    private static Player buildPlayerFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Player(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getString("player_rank"),
+                resultSet.getLong("score")
+        );
     }
 }

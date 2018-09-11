@@ -2,7 +2,7 @@ package com.alevel.jdbcbox.player;
 
 import java.util.Objects;
 
-public class Player {
+public final class Player {
 
     private final Long id;
 
