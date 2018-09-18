@@ -2,6 +2,8 @@ package com.alevel.jdbcbox;
 
 import com.alevel.jdbcbox.common.SingleConnectionPool;
 import com.alevel.jdbcbox.common.StorageException;
+import com.alevel.jdbcbox.game.Game;
+import com.alevel.jdbcbox.game.GameRepository;
 import com.alevel.jdbcbox.player.Player;
 import com.alevel.jdbcbox.player.PlayerRepository;
 
@@ -10,10 +12,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Supplier;
 
 public final class Application {
@@ -30,39 +29,69 @@ public final class Application {
         try (Connection connection = DriverManager.getConnection(url, connectionProps)) {
 
             Supplier<Connection> connectionSupplier = new SingleConnectionPool(connection);
-
-            //create and save players
             PlayerRepository playerRepository = new PlayerRepository(connectionSupplier);
-            System.out.println("Input player names:");
+            GameRepository gameRepository = new GameRepository(connectionSupplier);
+
             Scanner scanner = new Scanner(System.in);
-            List<String> names = new LinkedList<>();
-            String name;
-            while (!(name = scanner.nextLine()).isEmpty()) {
-                names.add(name);
-            }
-            for (String playerName : names) {
-                playerRepository.save(new Player(playerName));
-            }
+            String command;
+            String commandList = "Commands: " +
+                    "\npa  - add players" +
+                    "\npls - list players" +
+                    "\nga  - add games" +
+                    "\ngls - list games" +
+                    "\nq   - exit";
+            System.out.println(commandList);
+            while (true) {
+                System.out.print("> ");
+                command = scanner.next().trim().toLowerCase();
 
-            System.out.println("Input player id:");
-            long id = scanner.nextLong();
-            System.out.printf("%2s | %10s | %10s | %10s\n" +
-                            "-----------------------------------------\n",
-                    "id", "name", "rank", "score");
-            printPlayer(playerRepository.get(id));
-            System.out.print("\n\nAll Players:\n");
+                if ("pa".equals(command)) {
+                    System.out.println("enter player name: ");
+                    String name = scanner.nextLine();
+                    Player player = new Player(name);
+                    playerRepository.save(player);
+                } else if ("pls".equals(command)) {
+                    for (Player player : playerRepository.list()) {
+                        System.out.printf("%d: name = %s; score = %d; rank = %s\n",
+                                player.getId(), player.getNickname(), player.getScore(), player.getRank());
+                    }
+                } else if ("ga".equals(command)) {
+                    System.out.println("Enter number of participants: ");
+                    int partNumber = scanner.nextInt();
+                    System.out.println("Enter participants ids: ");
+                    List<Long> players = new ArrayList<>(partNumber);
+                    for (int i = 0; i < partNumber; i++) {
+                        players.add(scanner.nextLong());
+                    }
+                    System.out.println("Enter winner id: ");
+                    Long winnerId = scanner.nextLong();
+                    System.out.println("Enter score: ");
+                    Long score = scanner.nextLong();
 
-            for (Player player : playerRepository.list()) {
-                printPlayer(player);
+                    gameRepository.save(new Game(null, winnerId, score, players));
+
+                } else if ("gls".equals(command)) {
+                    for (Game game : gameRepository.list()) {
+                        String gameString = String.valueOf(game.getId()) + ": " +
+                                "winner = " +
+                                game.getWinnerId() +
+                                "; score = " +
+                                game.getScore() +
+                                "; participants = " +
+                                game.getPlayers();
+                        System.out.println(gameString);
+                    }
+                } else if ("q".equals(command)) {
+                    System.out.println("bye!");
+                    break;
+                } else {
+                    System.out.println(commandList);
+                }
+
             }
         } catch (SQLException | StorageException e) {
             panic(e);
         }
-    }
-
-    private static void printPlayer(Player player) {
-        System.out.printf("%2d | %10s | %10s | %10d\n",
-                player.getId(), player.getNickname(), player.getRank(), player.getScore());
     }
 
     private static void panic(Throwable e) {
