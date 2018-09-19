@@ -32,7 +32,7 @@ public final class Application {
             PlayerRepository playerRepository = new PlayerRepository(connectionSupplier);
             GameRepository gameRepository = new GameRepository(connectionSupplier);
 
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner;
             String command;
             String commandList = "Commands: " +
                     "\npa  - add players" +
@@ -42,10 +42,12 @@ public final class Application {
                     "\nq   - exit";
             System.out.println(commandList);
             while (true) {
+                scanner = new Scanner(System.in);
                 System.out.print("> ");
                 command = scanner.next().trim().toLowerCase();
 
                 if ("pa".equals(command)) {
+                    scanner = new Scanner(System.in);
                     System.out.println("enter player name: ");
                     String name = scanner.nextLine();
                     Player player = new Player(name);
@@ -56,6 +58,7 @@ public final class Application {
                                 player.getId(), player.getNickname(), player.getScore(), player.getRank());
                     }
                 } else if ("ga".equals(command)) {
+                    scanner = new Scanner(System.in);
                     System.out.println("Enter number of participants: ");
                     int partNumber = scanner.nextInt();
                     System.out.println("Enter participants ids: ");
