@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web UI</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<h1 class="title"
+    onmouseover="this.style.color = 'blue'"
+    onmouseout="unsetColor(this)">Title</h1>
+<input type="text" id="tfield" />
+<div class="red">
+    <p id="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Ornare suspendisse sed nisi lacus
+        sed viverra. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Tellus in metus vulputate
+        eu scelerisque felis imperdiet. Sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula. Sit amet
+        consectetur adipiscing elit duis tristique. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan.
+        Elementum facilisis leo vel fringilla est ullamcorper. Viverra ipsum nunc aliquet bibendum enim facilisis.
+        Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Massa placerat duis ultricies lacus.
+        Elementum integer enim neque volutpat ac tincidunt vitae semper. Placerat orci nulla pellentesque dignissim
+        enim. Condimentum lacinia quis vel eros donec ac odio. Mollis nunc sed id semper risus in hendrerit gravida
+        rutrum. Neque laoreet suspendisse interdum consectetur libero id. Feugiat vivamus at augue eget arcu dictum
+        varius. Morbi tincidunt ornare massa eget egestas. Maecenas accumsan lacus vel facilisis. Urna nec tincidunt
+        praesent semper feugiat nibh sed pulvinar proin.</p>
+</div>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+    console.log("Hello form inline script!");
+    function unsetColor(element) {
+        element.style.color = '';
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #container {
+            height: 100%;
+        }
+
+        #header {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            background-color: #ccd;
+            width: 100%;
+            text-align: center;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 5em;
+            width: 100%;
+            background-color: #ccd;
+        }
+
+        #content {
+            position: absolute;
+            bottom: 5em;
+            top: 8em;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            /*align-content: center;*/
+        }
+
+        .calculate {
+            border: 2px solid lightgrey;
+            background-color: lightgrey;
+        }
+
+        .calculate:hover {
+            border-color: #A0A0A0;
+            background-color: #A0A0A0;
+        }
+
+        .converter * {
+            font-size: inherit;
+            padding: 0.2em;
+            margin: 0.1em 0.2em;
+        }
+
+        .converter input[type="text"], input[type="number"] {
+            border: 2px solid whitesmoke;
+            background-color: whitesmoke;
+        }
+
+        .converter input[type="text"]:hover, input[type="number"]:hover {
+            border-color: lightgrey;
+            background-color: lightgrey;
+        }
+
+        * {
+            -moz-box-sizing: content-box;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+
+    <div id="header">
+        <h1>RATES CONVERTER</h1>
+    </div>
+
+    <div id="content">
+        <div class="converter" id="convert-usd">
+            <label for="input-usd">USD: </label>
+            <input type="number" class="converter-input" id="input-usd" placeholder="0.00">
+            <input type="button" class="calculate" id="calc-usd" value="Convert">
+            <input type="text" readonly="readonly" class="output" id="output-usd" placeholder="0.00 UAH"/>
+        </div>
+        <div class="converter" id="convert-eur">
+            <label for="input-eur">EUR: </label>
+            <input type="number" class="converter-input" id="input-eur" placeholder="0.00">
+            <input type="button" class="calculate" id="calc-eur" value="Convert">
+            <input type="text" readonly="readonly" class="output" id="output-eur" placeholder="0.00 UAH"/>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+</div>
+
+<script>
+
+    //Get currency rates information
+    axios.get('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11')
+        .then(function (response) {
+            var data = response.data;
+
+            var usdToUahRate = retrieveBuyRate(data, 'USD');
+
+            var calcUSD = document.getElementById('calc-usd');
+            var outUSD = document.getElementById('output-usd');
+            var inputUSD = document.getElementById('input-usd');
+
+            calcUSD.addEventListener('click', function () {
+                var value = inputUSD.value;
+                outUSD.value = (value * usdToUahRate) + ' UAH';
+            });
+
+            var eurToUahRate = retrieveBuyRate(data, 'EUR');
+
+            var calcEUR = document.getElementById('calc-eur');
+            var outEUR = document.getElementById('output-eur');
+
+            var inputEUR = document.getElementById('input-eur');
+            calcEUR.addEventListener('click', function () {
+                var value = inputEUR.value;
+                outEUR.value = (value * eurToUahRate) + ' UAH';
+            });
+        })
+        .catch(function (reason) {
+            console.error(reason)
+        });
+
+    function retrieveBuyRate(data, ccy) {
+        return data
+            .filter(function (value) {
+                return value.ccy === ccy
+            })
+            .map(function (value) {
+                return parseFloat(value.buy)
+            })[0];
+    }
+
+</script>
+</body>
+</html>
