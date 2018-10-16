@@ -17,11 +17,14 @@ public class TodoRepository {
     }
 
     public Long save(Todo entity) throws TodoException {
-        String sql = "INSERT INTO todos (text) VALUE (?); SELECT LAST_INSERT_ID();";
+        String insert = "INSERT INTO todos (text) VALUE (?)";
+        String select = "SELECT LAST_INSERT_ID()";
         try(Connection connection = dataSource.getConnection();
-            PreparedStatement query = connection.prepareStatement(sql)
+            PreparedStatement update = connection.prepareStatement(insert);
+            PreparedStatement query = connection.prepareStatement(select)
         ) {
-            query.setString(1, entity.getText());
+            update.setString(1, entity.getText());
+            update.executeUpdate();
             ResultSet resultSet = query.executeQuery();
             resultSet.first();
             return resultSet.getLong(1);
@@ -39,6 +42,23 @@ public class TodoRepository {
             query.setBoolean(2, entity.isDone());
             query.setLong(3, entity.getId());
             query.executeUpdate();
+        } catch (SQLException e) {
+            throw new TodoException(e);
+        }
+    }
+
+    public void batchUpdate(Iterable<Todo> batch) throws TodoException {
+        String sql = "UPDATE todos SET text = ?, is_done = ? WHERE id = ?";
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement query = connection.prepareStatement(sql)
+        ) {
+            for (Todo todo : batch) {
+                query.setString(1, todo.getText());
+                query.setBoolean(2, todo.isDone());
+                query.setLong(3, todo.getId());
+                query.addBatch();
+            }
+            query.executeBatch();
         } catch (SQLException e) {
             throw new TodoException(e);
         }
