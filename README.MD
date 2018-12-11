@@ -14,3 +14,9 @@ This is a collection of code examples from <https://a-level.com.ua> course **Jav
 * Collections: `core/src/com/alevel/sandbox/collections`
 * IO: `core/src/com/alevel/sandbox/io`
 * Threads: `core/src/com/alevel/sandbox/threads`
+* JDBC: `jdbcbox`
+* Servlet API: `jeebox`
+* JPA/Hibernate `jpabox`
+* Todo List web app: `todolist`
+* Todo List web app + JPA/Hibernate: `todolist-jpa`
+* Todo List web app \[Spring Web\]: `todolist-spring-web`
