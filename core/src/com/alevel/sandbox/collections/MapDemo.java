@@ -1,7 +1,6 @@
 package com.alevel.sandbox.collections;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapDemo {
     public static void main(String[] args) {
@@ -11,6 +10,9 @@ public class MapDemo {
         playerLevels.put("void", 8);
         playerLevels.put("gman", 5);
         playerLevels.put("dendi", 8);
+
+        System.out.println(playerLevels.getOrDefault("elex", 0));
+        System.out.println();
 
         System.out.println(playerLevels.get("void"));
         System.out.println();

@@ -1,7 +1,6 @@
 package com.alevel.sandbox.collections;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class SetDemo {
     public static void main(String[] args) {
@@ -20,6 +19,11 @@ public class SetDemo {
             System.out.println(string);
         }
 
+        SortedSet<Integer> sorted = new TreeSet<>();
+        sorted.add(10);
+        sorted.add(12);
+        sorted.add(8);
+        System.out.println(sorted);
     }
 
 }
