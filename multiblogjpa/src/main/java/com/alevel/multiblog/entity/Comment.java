@@ -1,15 +1,16 @@
 package com.alevel.multiblog.entity;
 
-import java.util.Objects;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comments", uniqueConstraints =
 @UniqueConstraint(columnNames = {"number", "post_id"}))
-public class Comment {
+public class Comment implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer number;

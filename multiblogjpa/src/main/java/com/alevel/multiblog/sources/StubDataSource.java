@@ -27,7 +27,7 @@ public final class StubDataSource {
 
         Comment betaComment1 = new Comment(1, beta, alphaPost1, "Hey, Alpha");
         Comment betaComment2 = new Comment(2, beta, alphaPost1, "Nice to meet you too");
-        Comment gammaComment3 = new Comment(3, beta, alphaPost1, "Hi there");
+        Comment gammaComment3 = new Comment(3, gamma, alphaPost1, "Hi there");
 
         List<Post> gammaPosts = gamma.getPosts();
         for (int i = 0; i < 1000; i++) {

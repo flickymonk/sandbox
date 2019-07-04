@@ -1,23 +1,26 @@
 package com.alevel.multiblog.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     private User author;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String text;
 
     @OneToMany(mappedBy = "post")

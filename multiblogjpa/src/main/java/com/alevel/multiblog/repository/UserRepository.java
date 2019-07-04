@@ -18,12 +18,7 @@ public class UserRepository extends AbstractRepository<User, Long> {
 
     @Override
     public List<User> findAll() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> cq = cb.createQuery(User.class);
-        Root<User> root = cq.from(User.class);
-        CriteriaQuery<User> selectAll = cq.select(root);
-        TypedQuery<User> query = entityManager.createQuery(selectAll);
-        return query.getResultList();
+        return findAll(User.class);
     }
 
     public Optional<User> findByEmail(String email) {
@@ -39,7 +34,6 @@ public class UserRepository extends AbstractRepository<User, Long> {
 
     @Override
     public Optional<User> find(Long id) {
-        User user = entityManager.find(User.class, id);
-        return Optional.ofNullable(user);
+        return find(id, User.class);
     }
 }

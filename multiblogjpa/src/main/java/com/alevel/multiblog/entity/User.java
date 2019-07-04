@@ -1,6 +1,7 @@
 package com.alevel.multiblog.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,16 +10,21 @@ import java.util.Objects;
 @Table(name = "users")
 @NamedEntityGraph(name = "posts_and_comments", attributeNodes = {
         @NamedAttributeNode("posts"),
-        @NamedAttributeNode("comments"),
-})
-public class User {
+        @NamedAttributeNode(value = "comments", subgraph = "comments"),
+}, subgraphs = @NamedSubgraph(
+        name = "comments",
+        attributeNodes = {@NamedAttributeNode("author")}
+))
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String username;
 
     @OneToMany(mappedBy = "author")
@@ -48,10 +54,12 @@ public class User {
     }
 
     public void setEmail(String email) {
+        Objects.requireNonNull(email);
         this.email = email;
     }
 
     public String getUsername() {
+        Objects.requireNonNull(username);
         return username;
     }
 
