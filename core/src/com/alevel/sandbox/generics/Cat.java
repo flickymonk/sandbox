@@ -1,33 +1,33 @@
 package com.alevel.sandbox.generics;
 
-public final class Cat {
+final class Cat {
     private final String name;
     private int age;
     private boolean alive;
 
-    public Cat(String name) {
+    Cat(String name) {
         this.name = name;
         age = 0;
         alive = true;
     }
 
-    public int getAge() {
+    int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    void setAge(int age) {
         this.age = age;
     }
 
-    public void kill() {
+    void kill() {
         alive = false;
     }
 
-    public boolean isAlive() {
+    boolean isAlive() {
         return alive;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 

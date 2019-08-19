@@ -2,18 +2,21 @@ package com.alevel.sandbox.generics;
 
 import java.util.Random;
 
-public class CatKillerBox extends Box<Cat> {
-
-    public CatKillerBox(Cat value) {
-        super(value);
-    }
+class CatKillerBox extends Box<Cat> {
 
     private final Random rnd = new Random();
 
-    public void randomDeath() {
-        if(rnd.nextBoolean()) {
-            getValue().kill();
+    CatKillerBox(Cat value) {
+        super(value);
+    }
+
+    void randomDeath() {
+        final Cat cat = getValue();
+
+        if (rnd.nextBoolean() && cat.isAlive()) {
+            cat.kill();
         }
+
         print();
     }
 

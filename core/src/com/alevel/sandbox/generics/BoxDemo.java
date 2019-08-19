@@ -6,14 +6,14 @@ public class BoxDemo {
         Cat barsique = new Cat("Барсик");
         barsique.setAge(2);
 
-        Box<Cat> schroedingerBox = new Box<>(barsique);
-        schroedingerBox.print();
+        Box<Cat> box = new Box<>(barsique);
+        box.print();
 
         Box<Void> empty = new Box<>();
         empty.print();
 
-        CatKillerBox catKillerBox = new CatKillerBox(barsique);
-        catKillerBox.randomDeath();
+        CatKillerBox schrodingerBox = new CatKillerBox(barsique);
+        schrodingerBox.randomDeath();
     }
 
 }

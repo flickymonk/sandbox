@@ -2,7 +2,7 @@ package com.alevel.sandbox.generics;
 
 public class Box<T> {
 
-    private T value;
+    T value;
 
     public Box() {
     }
@@ -15,7 +15,7 @@ public class Box<T> {
         System.out.println("This box contains " + value);
     }
 
-    public T getValue() {
+    T getValue() {
         return value;
     }
 }
