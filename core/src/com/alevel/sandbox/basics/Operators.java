@@ -142,9 +142,9 @@ public class Operators {
         System.out.println("Bit shift operators: " + System.lineSeparator());
 
         System.out.println("1 << 4 = " + (1 << 4));       // 1 -> 10000
-        System.out.println("4 >> 4 = " + (4 >> 4));       // 100 -> 1
+        System.out.println("4 >> 4 = " + (4 >> 4));       // 100 -> 0
         System.out.println("-8 >> 2 = " + (-8 >> 2));     // -1000 -> -10
-        System.out.println("-8 >>> 2 = " + (-8 >>> 2));   // wtf
+        System.out.println("-8 >>> 2 = " + (-8 >>> 2));   // 0b0011_1111_1111_1111_1111_1111_1111_1110
         System.out.println("4 >>> 2 = " + (4 >>> 2));     // 100 -> 1
 
     }

@@ -6,7 +6,6 @@ public class DoWhileLoop {
 
         int i = 0;
 
-        //noinspection ConstantConditions
         do {
             System.out.println("i = " + i--);
         } while (i > 0);
