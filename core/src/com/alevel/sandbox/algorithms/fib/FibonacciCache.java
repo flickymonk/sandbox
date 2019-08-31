@@ -1,11 +1,11 @@
 package com.alevel.sandbox.algorithms.fib;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FibonacciCache {
 
-    private static final Map<Integer, Long> fibs = new HashMap<>();
+    private static final Map<Integer, Long> fibs = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         System.out.println(fib(11));
@@ -19,8 +19,11 @@ public class FibonacciCache {
     }
 
     private static long fib(int n) {
-        if (fibs.containsKey(n))
-            return fibs.get(n);
+
+        return fibs.computeIfAbsent(n, FibonacciCache::countToFib);
+    }
+
+    private static long countToFib(int n) {
         long result;
         if (n == 0) {
             result = 0;
@@ -29,7 +32,6 @@ public class FibonacciCache {
         } else {
             result = fib(n - 1) + fib(n - 2);
         }
-        fibs.put(n, result);
         return result;
     }
 }
