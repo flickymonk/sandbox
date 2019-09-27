@@ -1,6 +1,6 @@
 package com.alevel.sandbox.oop;
 
-public class Cat extends Pet implements Cute {
+public final class Cat extends Pet implements Cute {
 
     @Override
     public void say() {

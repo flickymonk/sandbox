@@ -46,12 +46,14 @@ public class InnerClassDemo {
         System.out.println(pirate.getClass());
         System.out.println(pirate.getLanguage());
 
-        new Object() {
-            private void sayHello() {
+        Object o = new Object() {
+            private Object sayHello() {
                 System.out.println("Hello from anonymous class");
+                return this;
             }
         }.sayHello();
 
+        System.out.println(o.getClass());
 
         Runnable outputJavaHome = () -> System.out.println(System.getenv("JAVA_HOME"));
 

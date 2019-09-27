@@ -2,7 +2,7 @@ package com.alevel.sandbox.patterns;
 
 public class PrototypeDemo {
     public static void main(String[] args) {
-        Box b1 = new Box.BoxBiulder()
+        Box b1 = new Box.BoxBuilder()
                 .build();
         Box b2 = b1.clone();
         System.out.println(b1.equals(b2));

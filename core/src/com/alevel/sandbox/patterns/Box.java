@@ -16,6 +16,18 @@ final class Box implements Cloneable {
         this.depth = depth;
     }
 
+    public static Box create(int height, int width, int depth) {
+        if (height <= 0 || width <= 0 || depth <= 0) {
+            return null;
+        } else {
+            return new Box(height, width, depth);
+        }
+    }
+
+    public static Box create(int side) {
+        return create(side, side, side);
+    }
+
     public int getHeight() {
         return height;
     }
@@ -62,7 +74,7 @@ final class Box implements Cloneable {
         return Objects.hash(height, width, depth);
     }
 
-    static class BoxBiulder {
+    static class BoxBuilder {
 
         private int height;
 
@@ -70,25 +82,23 @@ final class Box implements Cloneable {
 
         private int depth;
 
-        BoxBiulder height(int height) {
+        BoxBuilder height(int height) {
             this.height = height;
             return this;
         }
 
-
-        BoxBiulder width(int width) {
+        BoxBuilder width(int width) {
             this.width = width;
             return this;
         }
 
-
-        BoxBiulder depth(int depth) {
+        BoxBuilder depth(int depth) {
             this.depth = depth;
             return this;
         }
 
         Box build() {
-            return new Box(height, width, depth);
+            return Box.create(height, width, depth);
         }
 
     }

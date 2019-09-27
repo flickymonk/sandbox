@@ -21,6 +21,9 @@ public class Application {
         enemy.setAge(9);
         enemy.say();
 
+        whatDoesItSay(enemy);
+        whatDoesItSay(friend);
+
         int howCute = ((Cat) enemy).howCute();
         System.out.println(howCute);
 
@@ -28,4 +31,9 @@ public class Application {
         System.out.println(cutie.howCute());
     }
 
+
+    private static void whatDoesItSay(Speaking speaking) {
+        System.out.println("It says:");
+        speaking.say();
+    }
 }
