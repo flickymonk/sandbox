@@ -14,6 +14,11 @@ public class CheckedExceptionDemo {
             throw new CustomCheckedException("Ooops");
         } catch (CustomCheckedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error!");
+            throw new RuntimeException(e);
+        } finally {
+            System.out.println("Hello from finally block!");
         }
         throw new CustomCheckedException("Ouch!");
     }

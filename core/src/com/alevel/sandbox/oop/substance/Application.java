@@ -11,7 +11,7 @@ public class Application {
 
         int substanceCode = scanner.nextInt();
 
-        Substance substance;
+        final Substance substance;
 
         switch (substanceCode) {
             case 1:
@@ -24,8 +24,9 @@ public class Application {
                 substance = new Oxygen();
                 break;
             default:
+                substance = null;
                 System.err.println("Unknown substance!");
-                return;
+                System.exit(1);
         }
 
         double t;

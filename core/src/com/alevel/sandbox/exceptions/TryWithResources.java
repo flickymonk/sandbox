@@ -5,7 +5,6 @@ import java.io.*;
 public class TryWithResources {
 
     public static void main(String[] args) {
-
         try (InputStream is = new FileInputStream("misc/files/sample.txt");
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 

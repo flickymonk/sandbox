@@ -16,8 +16,4 @@ public class CustomCheckedException extends Exception {
     public CustomCheckedException(Throwable cause) {
         super(cause);
     }
-
-    protected CustomCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
