@@ -15,7 +15,9 @@ public final class Silo implements LaunchPlatform {
 
     @Override
     public Launch launch(Rocket rocket) {
-        Launch launch = new Launch(location, rocket, new Date());
+        Date date = new Date();
+
+        Launch launch = new Launch(location, rocket, date);
 
         Coordinates target = rocket.getTarget();
 
@@ -23,7 +25,7 @@ public final class Silo implements LaunchPlatform {
                 " rocket has been launched from the silo at {" +
                 location.getLatitude() + ", " +
                 location.getLongitude() + "} at " +
-                launch.getDate() + ", targeting coordinates {" +
+                date + ", targeting coordinates {" +
                 target.getLatitude() + ", " +
                 target.getLongitude() + "}"
         );
