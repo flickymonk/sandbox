@@ -21,7 +21,7 @@ class DateServiceFactoryTest {
     void whenDividesBy4ButNot100_returnsLeap() {
         assertLeap(2016, DayOfWeek.MON);
         assertLeap(0, DayOfWeek.SAT);
-        assertLeap(-4, DayOfWeek.THR);
+        assertLeap(-4, DayOfWeek.THU);
     }
 
     @Test

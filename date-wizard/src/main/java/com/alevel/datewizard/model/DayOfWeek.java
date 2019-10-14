@@ -8,7 +8,7 @@ public enum DayOfWeek {
 
     WED("Wednesday"),
 
-    THR("Thursday"),
+    THU("Thursday"),
 
     FRI("Friday"),
 
