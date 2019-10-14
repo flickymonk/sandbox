@@ -18,12 +18,12 @@ class LeapYearDateServiceTest {
     }
 
     @Test
-    void upperThresholdIs365() {
+    void upperThresholdIs366() {
         assertEquals(366, defaultService.getUpperThreshold());
     }
 
     @Test
-    void getMonthLengthShouldReturnValueForNonLeapYear() {
+    void getMonthLengthShouldReturnValueForLeapYear() {
         assertEquals(31, defaultService.getMonthLength(Month.JAN));
         assertEquals(29, defaultService.getMonthLength(Month.FEB));
         assertEquals(31, defaultService.getMonthLength(Month.MAR));
@@ -53,6 +53,7 @@ class LeapYearDateServiceTest {
     @Test
     void whenDayIs60_AndJan1Mon_shouldBeThuFeb39() {
         assertDateOfYear(new DateOfYear(29, Month.FEB, DayOfWeek.THU), 60);
+        assertDateOfYear(new DateOfYear(1, Month.MAR, DayOfWeek.FRI), 61);
     }
 
     @Test
