@@ -19,4 +19,8 @@ public class GenericMethodDemo {
         return Arrays.copyOfRange(args, 1, args.length);
     }
 
+    private static <T> Box<T> getEmptyBox() {
+        return new Box<>();
+    }
+
 }

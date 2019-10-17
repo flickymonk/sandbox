@@ -6,7 +6,8 @@ public class BoxDemo {
         Cat barsique = new Cat("Барсик");
         barsique.setAge(2);
 
-        Box<Cat> box = new Box<>(barsique);
+        Box<Cat> box;
+        box = new Box<>(barsique);
         box.print();
 
         Box<Void> empty = new Box<>();
