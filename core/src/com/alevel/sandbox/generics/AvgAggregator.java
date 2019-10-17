@@ -3,6 +3,9 @@ package com.alevel.sandbox.generics;
 public class AvgAggregator implements Aggregator<Double, Number> {
     @Override
     public Double aggregate(Number[] items) {
+        if (items == null) {
+            throw new IllegalArgumentException("Can't aggregate null");
+        }
         int length = items.length;
         if (length == 0) {
             throw new IllegalArgumentException("Empty array has no average value");
