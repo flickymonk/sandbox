@@ -19,7 +19,6 @@ public class FibonacciCache {
     }
 
     private static long fib(int n) {
-
         return fibs.computeIfAbsent(n, FibonacciCache::countToFib);
     }
 

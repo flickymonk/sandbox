@@ -1,7 +1,7 @@
 package com.alevel.sandbox.collections;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ComparisonDemo {
@@ -12,7 +12,7 @@ public class ComparisonDemo {
         ints.add(29);
         ints.add(0);
 
-        ints.sort(Collections.reverseOrder());
+        ints.sort(Comparator.reverseOrder());
         System.out.println(ints);
 
     }
