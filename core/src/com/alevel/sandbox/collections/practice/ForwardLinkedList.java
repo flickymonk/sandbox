@@ -85,6 +85,10 @@ public class ForwardLinkedList<T> implements Iterable<T> {
         return size;
     }
 
+    public T set(int index, T value) {
+        return navigate(index).replaceValue(value);
+    }
+
     private Node<T> navigate(int index) {
         Objects.checkIndex(index, size);
         Node<T> n = head;
@@ -107,12 +111,22 @@ public class ForwardLinkedList<T> implements Iterable<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ForwardLinkedList<?> that = (ForwardLinkedList<?>) o;
-        return size == that.size && Objects.equals(that.head, head);
+        if (size != that.size) return false;
+        Iterator<?> thatItr = that.iterator();
+        Iterator<T> thisItr = iterator();
+        while (thisItr.hasNext() && thatItr.hasNext()) {
+            if (!Objects.equals(thisItr.next(), thatItr.next()))
+                return false;
+        }
+        return !(thatItr.hasNext() || thisItr.hasNext());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(head);
+        int hashCode = 1;
+        for (T e : this)
+            hashCode = 31 * hashCode + Objects.hashCode(e);
+        return hashCode;
     }
 
     @Override
@@ -133,17 +147,17 @@ public class ForwardLinkedList<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Itr<>(this);
+        return new Itr();
     }
 
-    private static final class Itr<E> implements Iterator<E> {
+    private final class Itr implements Iterator<T> {
 
-        private Node<E> previous;
+        private Node<T> previous;
 
-        private Node<E> current;
+        private Node<T> current;
 
-        Itr(ForwardLinkedList<E> list) {
-            this.current = new Node<>(null, list.head);
+        Itr() {
+            this.current = new Node<>(null, ForwardLinkedList.this.head);
             this.previous = new Node<>(null, current);
         }
 
@@ -153,11 +167,11 @@ public class ForwardLinkedList<T> implements Iterable<T> {
         }
 
         @Override
-        public E next() {
+        public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            Node<E> next = current.next();
+            Node<T> next = current.next();
             previous = current;
             current = next;
             return next.getValue();
@@ -165,7 +179,7 @@ public class ForwardLinkedList<T> implements Iterable<T> {
 
         @Override
         public void remove() {
-            Node<E> next = current.next();
+            Node<T> next = current.next();
             previous.link(next);
         }
     }
@@ -205,22 +219,10 @@ public class ForwardLinkedList<T> implements Iterable<T> {
             return value;
         }
 
-        public void setValue(E value) {
+        public E replaceValue(E value) {
+            E old = this.value;
             this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Node<?> node = (Node<?>) o;
-            return Objects.equals(value, node.value) &&
-                    Objects.equals(next, node.next);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(value, next);
+            return old;
         }
     }
 
