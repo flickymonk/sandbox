@@ -13,8 +13,8 @@ public class FinderAndReplacer {
     }
 
     public void find(String str) throws IOException {
-
         Pattern pattern = Pattern.compile(str);
+        StringBuilder sb = new StringBuilder();
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -24,11 +24,12 @@ public class FinderAndReplacer {
                 Matcher matcher = pattern.matcher(line);
                 boolean foundSubstring = matcher.find();
                 if (foundSubstring) {
-                    System.out.println(line);
+                    sb.append(line);
                 }
             }
         }
 
+        System.out.println(sb);
     }
 
     public void replace(String str1, String str2) throws IOException {
