@@ -7,15 +7,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionFactory {
+public final class ConnectionFactory {
+
+    private ConnectionFactory() {
+    }
 
     private static final String DATASOURCE_PROPERTIES_FILE = "/datasource.properties";
 
-    private static Properties datasourceProps = new Properties();
+    private static Properties datasourceProps;
 
     public static Connection connect() throws IOException, SQLException {
 
-        if (datasourceProps.isEmpty()) {
+        if (datasourceProps == null) {
             loadProperties();
         }
 
@@ -25,6 +28,7 @@ public class ConnectionFactory {
     }
 
     private static void loadProperties() throws IOException {
+        datasourceProps = new Properties();
         try (InputStream props = SelectAllEmailsRunner.class.getResourceAsStream(DATASOURCE_PROPERTIES_FILE)) {
             datasourceProps.load(props);
         }
