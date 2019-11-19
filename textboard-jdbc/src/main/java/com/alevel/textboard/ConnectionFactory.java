@@ -29,7 +29,7 @@ public final class ConnectionFactory {
 
     private static void loadProperties() throws IOException {
         datasourceProps = new Properties();
-        try (InputStream props = SelectAllEmailsRunner.class.getResourceAsStream(DATASOURCE_PROPERTIES_FILE)) {
+        try (InputStream props = ConnectionFactory.class.getResourceAsStream(DATASOURCE_PROPERTIES_FILE)) {
             datasourceProps.load(props);
         }
     }
