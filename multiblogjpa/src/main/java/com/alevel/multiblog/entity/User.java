@@ -84,31 +84,4 @@ public class User implements Serializable {
         Objects.requireNonNull(comments);
         this.comments = comments;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return email.equals(user.email) &&
-                username.equals(user.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, username);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                '}';
-    }
 }

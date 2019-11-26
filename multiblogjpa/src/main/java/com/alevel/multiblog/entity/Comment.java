@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "comments", uniqueConstraints =
 @UniqueConstraint(columnNames = {"number", "post_id"}))
-public class Comment implements Serializable {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,34 +73,4 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Comment comment = (Comment) o;
-        return Objects.equals(number, comment.number) &&
-                Objects.equals(author, comment.author) &&
-                Objects.equals(post, comment.post) &&
-                Objects.equals(text, comment.text);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(number, author, post, text);
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", number=" + number +
-                ", author=" + author +
-                ", post=" + post +
-                ", text='" + text + '\'' +
-                '}';
-    }
 }

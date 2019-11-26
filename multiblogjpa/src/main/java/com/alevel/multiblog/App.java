@@ -36,7 +36,7 @@ public class App {
             Optional<User> byEmail = userRepository.findByEmail("alpha.user@gmail.com");
             if (byEmail.isPresent()) {
                 User alpha = byEmail.get();
-                log.info("Alpha user: " + alpha);
+                log.info("Alpha user: " + alpha.getEmail());
                 for (Post post : alpha.getPosts()) {
                     log.info("All comments under Gamma user's post");
                     for (Comment comment : post.getComments()) {
@@ -61,7 +61,7 @@ public class App {
         properties.put("javax.persistence.fetchgraph", postsAndComments);
         User gamma = entityManager.find(User.class, lastUser, properties);
         if (gamma != null) {
-            log.info("Gamma user: {}", gamma);
+            log.info("Gamma user: {}", gamma.getEmail());
             log.info("Gamma user has {} posts", gamma.getPosts().size());
             log.info("Gamma user has {} comments",  gamma.getComments().size());
             boolean postLoaded = gamma.getComments().get(0).getPost() != null;
@@ -74,7 +74,7 @@ public class App {
         Optional<User> byId = userRepository.find(id);
         if (byId.isPresent()) {
             User gamma = byId.get();
-            log.info("Gamma user: {}", gamma);
+            log.info("Gamma user: {}", gamma.getEmail());
             log.info("Gamma user has {} posts", gamma.getPosts().size());
             log.info("Gamma user has {} comments",  gamma.getComments().size());
         }
