@@ -11,7 +11,9 @@
         <property name="hibernate.connection.password">example</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
         <property name="show_sql">true</property>
-        <mapping package="com.alevel.jpabox.entity"/>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <mapping class="com.alevel.jpabox.entity.Guild"/>
+        <mapping class="com.alevel.jpabox.entity.Player"/>
     </session-factory>
 
 </hibernate-configuration>

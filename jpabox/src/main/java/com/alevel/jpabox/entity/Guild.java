@@ -1,13 +1,18 @@
 package com.alevel.jpabox.entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "guilds")
-public class Guild implements Serializable {
+public class Guild {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +25,14 @@ public class Guild implements Serializable {
     @OneToMany(mappedBy = "guild")
     private List<Player> players;
 
-    public Guild(String name, List<Player> players) {
+    public Guild(String name) {
         this.name = name;
-        this.players = players;
+        this.players = new ArrayList<>();
     }
 
-    public Guild(){}
+    public Guild() {
+        this.players = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -51,27 +58,9 @@ public class Guild implements Serializable {
         this.players = players;
     }
 
-    @Override
-    public String toString() {
-        return "Guild{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", players=" + players +
-                '}';
+    public void addPlayer(Player player) {
+        players.add(player);
+        player.setGuild(this);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Guild guild = (Guild) o;
-        return Objects.equals(id, guild.id) &&
-                Objects.equals(name, guild.name) &&
-                Objects.equals(players, guild.players);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, players);
-    }
 }

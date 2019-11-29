@@ -1,12 +1,17 @@
 package com.alevel.jpabox.entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "players")
-public class Player implements Serializable {
+public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +28,8 @@ public class Player implements Serializable {
     @JoinColumn(name = "guild_id")
     private Guild guild;
 
-    public Player(){}
+    public Player() {
+    }
 
     public Player(String name, Integer score, Guild guild) {
         this.name = name;
@@ -61,32 +67,6 @@ public class Player implements Serializable {
 
     public void setGuild(Guild guild) {
         this.guild = guild;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Player player = (Player) o;
-        return Objects.equals(id, player.id) &&
-                Objects.equals(name, player.name) &&
-                Objects.equals(score, player.score) &&
-                Objects.equals(guild, player.guild);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, score, guild);
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", score=" + score +
-                ", guild=" + guild +
-                '}';
     }
 
 }
