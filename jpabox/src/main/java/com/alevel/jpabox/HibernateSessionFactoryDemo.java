@@ -25,14 +25,14 @@ public class HibernateSessionFactoryDemo {
             try (Session session = sessionFactory.openSession()) {
                 transaction = session.beginTransaction();
 
-                Query deletePlayers = session.createQuery("delete Player");
+                Query<?> deletePlayers = session.createQuery("delete Player");
                 deletePlayers.executeUpdate();
 
                 Query<Player> listPlayers = session.createQuery("from Player", Player.class);
                 List<Player> players = listPlayers.list();
                 System.out.println(players);
 
-                Query deleteGuilds = session.createQuery("delete Guild");
+                Query<?> deleteGuilds = session.createQuery("delete Guild");
                 deleteGuilds.executeUpdate();
 
                 Guild alevel = new Guild("A Level");
