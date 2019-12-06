@@ -6,6 +6,31 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "accounts")
+@NamedEntityGraph(
+        name = "account-with-promotions",
+        attributeNodes = {
+                @NamedAttributeNode("phoneNumber"),
+                @NamedAttributeNode("balance"),
+                @NamedAttributeNode(value = "tariff", subgraph = "tariffs-with-promotions")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "tariffs-with-promotions",
+                        type = Tariff.class,
+                        attributeNodes = @NamedAttributeNode(value = "promotions", subgraph = "promotions")
+                ),
+                @NamedSubgraph(
+                        name = "promotions",
+                        type = Promotion.class,
+                        attributeNodes = {
+                                @NamedAttributeNode("name"),
+                                @NamedAttributeNode("description"),
+                                @NamedAttributeNode("start"),
+                                @NamedAttributeNode("end")
+                        }
+                )
+        }
+)
 public class Account {
 
     @Id
