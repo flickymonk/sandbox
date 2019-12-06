@@ -1,6 +1,8 @@
 package com.alevel.moboperator.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tariffs")
@@ -18,6 +20,9 @@ public class Tariff {
 
     @Column(name = "monthly_payment", nullable = false)
     private long monthlyPayment;
+
+    @ManyToMany(mappedBy = "applicableTo")
+    private List<Promotion> promotions = new ArrayList<>();
 
     public Tariff() {
     }
@@ -58,5 +63,13 @@ public class Tariff {
 
     public void setMonthlyPayment(long monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
+    }
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
     }
 }

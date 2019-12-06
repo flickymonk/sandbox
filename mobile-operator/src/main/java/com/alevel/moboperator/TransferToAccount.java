@@ -22,7 +22,7 @@ public class TransferToAccount {
         Session session = sessionFactory.openSession();
 
         try(sessionFactory; session) {
-            session.getTransaction().begin();
+            session.beginTransaction();
 
             Account account = session.bySimpleNaturalId(Account.class).load(phoneNumber);
 

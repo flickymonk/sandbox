@@ -15,6 +15,7 @@
         <mapping class="com.alevel.moboperator.entity.Customer"/>
         <mapping class="com.alevel.moboperator.entity.Name"/>
         <mapping class="com.alevel.moboperator.entity.Tariff"/>
+        <mapping class="com.alevel.moboperator.entity.Promotion"/>
     </session-factory>
 
 </hibernate-configuration>
