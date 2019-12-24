@@ -40,7 +40,7 @@ public class DeadLock {
         }
     }
 
-    public static void main(String a[]) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         Object obj1 = new Object();
         Object obj2 = new Object();
 
