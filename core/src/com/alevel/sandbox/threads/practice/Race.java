@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 final class Race {
 
@@ -20,18 +22,32 @@ final class Race {
 
     private final AtomicInteger placeCounter;
 
+    private final Lock lock;
+
     Race(int distance) {
         this.distance = distance;
         finished = new ConcurrentHashMap<>();
         participants = ConcurrentHashMap.newKeySet();
         placeCounter = new AtomicInteger();
+        lock = new ReentrantLock(true);
     }
 
     int getDistance() {
         return distance;
     }
 
-    public synchronized void startAndWait() {
+    public void startAndWait() {
+        try {
+            lock.lock();
+            start();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void start() throws InterruptedException {
         placeCounter.set(0);
         finished.clear();
         int numberOfHorses = participants.size();
@@ -39,11 +55,7 @@ final class Race {
         for (Horse horse : participants) {
             new Thread(horse, horse.name + " Thread").start();
         }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        countDownLatch.await();
         participants.clear();
     }
 
