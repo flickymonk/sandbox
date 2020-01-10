@@ -2,8 +2,9 @@ package com.alevel.sandbox.threads.notification;
 
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 class EchoNotificationClient implements NotificationClient {
@@ -24,8 +25,14 @@ class EchoNotificationClient implements NotificationClient {
     public void send(PrintStream destination) {
         String message = scanner.nextLine();
 
+        Deque<Future<?>> tasks = new ArrayDeque<>(echoCount);
         for (int i = 0; i < echoCount; i++) {
-            executorService.execute(new NotificationTask(destination, "echo-" + i + ": " + message));
+            Future<?> future = executorService.submit(new NotificationTask(destination, "echo-" + i + ": " + message));
+            tasks.add(future);
+        }
+
+        while (!tasks.isEmpty()) {
+            tasks.removeIf(Future::isDone);
         }
     }
 
