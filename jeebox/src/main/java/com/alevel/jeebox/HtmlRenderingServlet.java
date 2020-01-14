@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/demo")
+@WebServlet(urlPatterns = "/render")
 public class HtmlRenderingServlet extends HttpServlet {
 
     private String responseTemplate;
@@ -23,8 +23,7 @@ public class HtmlRenderingServlet extends HttpServlet {
 
         try {
             URI templateURI = getClass().getResource("/template/demo.html").toURI();
-            byte[] bytes = Files.readAllBytes(Paths.get(templateURI));
-            responseTemplate = new String(bytes, StandardCharsets.UTF_8);
+            responseTemplate = Files.readString(Paths.get(templateURI), StandardCharsets.UTF_8);
         } catch (IOException | URISyntaxException e) {
             throw new ServletException(e);
         }

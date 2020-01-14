@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/example")
+@WebServlet("/redirect")
 public class ExampleRedirectServlet extends HttpServlet {
     @Override
     public void init() {
-        System.out.println("!!! Example Servlet Initialized !!!");
+        System.out.println("!!! Redirect Servlet Initialized !!!");
     }
 
     @Override
