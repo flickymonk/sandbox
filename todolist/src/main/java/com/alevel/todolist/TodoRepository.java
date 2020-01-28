@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TodoRepository {
@@ -16,7 +16,7 @@ public class TodoRepository {
         this.dataSource = dataSource;
     }
 
-    public Long save(Todo entity) throws TodoException {
+    public long save(Todo entity) throws TodoException {
         String insert = "INSERT INTO todos (text) VALUE (?)";
         String select = "SELECT LAST_INSERT_ID()";
         try(Connection connection = dataSource.getConnection();
@@ -65,12 +65,12 @@ public class TodoRepository {
     }
 
     public List<Todo> listAllNotDone() throws TodoException {
-        String sql = "SELECT * FROM todos WHERE is_done = false";
+        String sql = "SELECT id, text FROM todos WHERE is_done = false";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement query = connection.prepareStatement(sql)
         ) {
             ResultSet resultSet = query.executeQuery();
-            List<Todo> todos = new LinkedList<>();
+            List<Todo> todos = new ArrayList<>();
             while (resultSet.next()) {
                 todos.add(new Todo(
                         resultSet.getLong("id"),

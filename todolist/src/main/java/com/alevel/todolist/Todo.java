@@ -11,19 +11,13 @@ public final class Todo {
 
     private final String text;
 
-    private final Boolean done;
-
-    public Todo(String text) {
-        this.id = null;
-        this.text = text;
-        this.done = false;
-    }
+    private final boolean done;
 
     @JsonCreator
     public Todo(
             @JsonProperty("id") Long id,
             @JsonProperty("text") String text,
-            @JsonProperty("done") Boolean done
+            @JsonProperty("done") boolean done
     ) {
         this.id = id;
         this.text = text;
@@ -38,7 +32,7 @@ public final class Todo {
         return text;
     }
 
-    public Boolean isDone() {
+    public boolean isDone() {
         return done;
     }
 
@@ -49,7 +43,7 @@ public final class Todo {
         Todo todo = (Todo) o;
         return Objects.equals(id, todo.id) &&
                 Objects.equals(text, todo.text) &&
-                Objects.equals(done, todo.done);
+                done == todo.done;
     }
 
     @Override
