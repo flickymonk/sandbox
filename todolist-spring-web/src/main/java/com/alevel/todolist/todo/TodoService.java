@@ -21,7 +21,7 @@ public class TodoService implements TodoOperations {
 
     @Override
     public List<Todo> getAllNotDone() {
-        return todoRepository.findByDoneTrue();
+        return todoRepository.findByDoneFalse();
     }
 
     @Override

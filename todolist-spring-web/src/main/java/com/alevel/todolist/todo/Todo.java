@@ -2,7 +2,6 @@ package com.alevel.todolist.todo;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "todos")
@@ -16,7 +15,7 @@ public class Todo implements Serializable {
     private String text;
 
     @Column(nullable = false, name = "is_done")
-    private Boolean done;
+    private boolean done;
 
     public Todo(String text) {
         this.text = text;
@@ -38,11 +37,11 @@ public class Todo implements Serializable {
         return text;
     }
 
-    public Boolean isDone() {
+    public boolean isDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 
@@ -50,27 +49,4 @@ public class Todo implements Serializable {
         this.text = text;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
-        return Objects.equals(id, todo.id) &&
-                Objects.equals(text, todo.text) &&
-                Objects.equals(done, todo.done);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, text, done);
-    }
-
-    @Override
-    public String toString() {
-        return "Todo{" +
-                "id=" + id +
-                ", text='" + text + '\'' +
-                ", done=" + done +
-                '}';
-    }
 }
