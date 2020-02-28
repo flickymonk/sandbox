@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collector;
 
 import static java.util.stream.Collectors.*;
 
@@ -42,15 +43,15 @@ public final class Assignment {
         }
 
         public static int find(int... numbers) {
+            Map<Integer, Integer> occurrences = new HashMap<>();
 
-            Map<Integer, Integer> counts = Arrays.stream(numbers).boxed()
-                    .collect(toMap(Function.identity(), occurrence -> 1, Integer::sum, LinkedHashMap::new));
-
-            return counts.entrySet().stream()
-                    .max(Comparator.comparingInt(Map.Entry::getValue))
-                    .map(Map.Entry::getKey)
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Could not find the most commonly occurring element in an empty array"));
+            return Arrays.stream(numbers).reduce((max, next) -> {
+                int occurrencesOfNext = occurrences.merge(next, 1, Integer::sum);
+                if (max == next) return max;
+                int occurrencesOfMax = occurrences.computeIfAbsent(max, key -> 1);
+                return occurrencesOfNext > occurrencesOfMax ? next : max;
+            }).orElseThrow(() -> new IllegalArgumentException(
+                    "Could not find the most commonly occurring element in an empty array"));
         }
 
     }
