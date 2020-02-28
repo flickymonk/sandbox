@@ -1,10 +1,6 @@
 package com.alevel.sandbox.stream;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -94,21 +90,4 @@ public final class StreamAPIDemo {
 
     }
 
-    public static final class CalculateHashCodeInParallel {
-
-        public static int hashcode(Collection<?> objects) {
-            return objects.parallelStream()
-                    .mapToInt(Objects::hashCode)
-                    .reduce(1, (hash, next) -> 31 * hash + next);
-        }
-
-        public static void main(String[] args) {
-            List<UUID> objects = GenerateRandomUUIDs.generate(5_000_000).collect(toList());
-            System.out.println(hashcode(objects));
-            System.out.println(hashcode(objects));
-            System.out.println(hashcode(objects));
-            System.out.println(hashcode(objects));
-        }
-
-    }
 }
