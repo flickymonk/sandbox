@@ -10,7 +10,7 @@ public class ObjectTypes {
 
         System.out.println("Number of boxes = " + Box.getNumberOfBoxes());
 
-        // Box.getNumberOfBoxes() == box.getNumberOfBoxes();
+//         Box.getNumberOfBoxes() == mybox.getNumberOfBoxes();
     }
 
 }

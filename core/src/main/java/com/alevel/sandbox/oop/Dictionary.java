@@ -12,8 +12,6 @@ public class Dictionary {
 
     public class Word {
 
-        private final String language = Dictionary.this.language;
-
         private final String word;
 
         private final String definition;
@@ -40,7 +38,7 @@ public class Dictionary {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Word word1 = (Word) o;
-            return Objects.equals(language, word1.language) &&
+            return Objects.equals(language, word1.getLanguage()) &&
                     Objects.equals(word, word1.word) &&
                     Objects.equals(definition, word1.definition);
         }
@@ -80,7 +78,7 @@ public class Dictionary {
     @Override
     public int hashCode() {
 
-        return Objects.hash(language);
+        return Objects.hashCode(language);
     }
 
     @Override

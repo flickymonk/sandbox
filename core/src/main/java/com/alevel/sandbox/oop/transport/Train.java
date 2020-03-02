@@ -1,13 +1,9 @@
 package com.alevel.sandbox.oop.transport;
 
-public final class Train implements Transport {
+public final class Train extends TransportBase {
 
     @Override
-    public void deliver(Package pkg) {
-        System.out.println("Package " + pkg.getName() +
-                " with volume = " + pkg.getVolume() +
-                " was delivered to " + pkg.getDestination() +
-                " by train");
+    protected String getTransportName() {
+        return "train";
     }
-
 }
