@@ -4,26 +4,19 @@ public class HiddenWord {
 
     private static final char DEFAULT_PLACEHOLDER = '*';
 
-    private final String word;
-
-    private final char placeholder;
+    private final String placeholder;
 
     public HiddenWord(String word) {
         this(word, DEFAULT_PLACEHOLDER);
     }
 
     public HiddenWord(String word, char placeholder) {
-        this.placeholder = placeholder;
-        this.word = word;
+        int wordLength = word.length();
+        this.placeholder = String.valueOf(placeholder).repeat(wordLength);
     }
 
     public String display() {
-        StringBuilder sb = new StringBuilder();
-        int wordLength = word.length();
-        for (int i = 0; i < wordLength; i++) {
-            sb.append(placeholder);
-        }
-        return sb.toString();
+        return placeholder;
     }
 
 }

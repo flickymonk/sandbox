@@ -40,10 +40,6 @@ public class StreamDemo {
     }
 
     private static String makeSecret(int i) {
-        StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < i; j++) {
-            sb.append('*');
-        }
-        return sb.toString();
+        return "*".repeat(i);
     }
 }
