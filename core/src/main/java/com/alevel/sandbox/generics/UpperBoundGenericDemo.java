@@ -4,9 +4,9 @@ public class UpperBoundGenericDemo {
 
     public static void main(String[] args) {
 
-        Message msg = new Mail("Hi there, how are you?");
-        EmptyMessageFilter<Message> messageFilter = new EmptyMessageFilter<>();
-        if (messageFilter.filter(msg)) {
+        Mail msg = new Mail("Hi there, how are you?");
+        EmptyMessageFilter<Mail> mailFilter = new EmptyMessageFilter<>();
+        if (mailFilter.filter(msg)) {
             msg.send("61000");
         }
 

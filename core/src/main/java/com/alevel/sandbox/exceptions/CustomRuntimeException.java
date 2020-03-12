@@ -16,8 +16,4 @@ public class CustomRuntimeException extends RuntimeException {
     public CustomRuntimeException(Throwable cause) {
         super(cause);
     }
-
-    protected CustomRuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

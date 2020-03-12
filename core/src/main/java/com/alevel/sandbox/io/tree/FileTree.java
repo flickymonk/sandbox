@@ -32,7 +32,7 @@ public class FileTree {
 
     private static void exitOnError(String message) {
         System.err.println(message);
-        System.exit(1);
+        throw new RuntimeException(message);
     }
 
     private static final String BRANCH = "+--- ";

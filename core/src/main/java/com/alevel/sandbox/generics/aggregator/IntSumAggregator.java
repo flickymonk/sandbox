@@ -1,4 +1,4 @@
-package com.alevel.sandbox.generics;
+package com.alevel.sandbox.generics.aggregator;
 
 public class IntSumAggregator extends SumAggregator<Integer> {
     @Override

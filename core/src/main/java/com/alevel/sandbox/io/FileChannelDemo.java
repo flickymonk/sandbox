@@ -26,16 +26,14 @@ public class FileChannelDemo {
                 channel.write(buffer);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
 
         buffer.clear();
         try(FileChannel channel = FileChannel.open(path, READ)) {
             channel.read(buffer);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
         buffer.flip();
         byte[] bytes = new byte[buffer.limit()];

@@ -1,4 +1,4 @@
-package com.alevel.sandbox.generics;
+package com.alevel.sandbox.generics.aggregator;
 
 public class MaxAggregator<T extends Comparable<? super T>> implements Aggregator<T, T> {
     @Override

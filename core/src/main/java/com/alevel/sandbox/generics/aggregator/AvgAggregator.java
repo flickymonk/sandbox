@@ -1,4 +1,4 @@
-package com.alevel.sandbox.generics;
+package com.alevel.sandbox.generics.aggregator;
 
 public class AvgAggregator implements Aggregator<Double, Number> {
     @Override

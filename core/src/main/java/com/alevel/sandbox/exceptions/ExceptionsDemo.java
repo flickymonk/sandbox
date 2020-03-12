@@ -42,7 +42,6 @@ public class ExceptionsDemo {
     }
 
     private static void throwAndCatchChecked() {
-
         try {
             throw new CustomCheckedException("Whoopsie!"); //won't compile unless caught
         } catch (CustomCheckedException e) {

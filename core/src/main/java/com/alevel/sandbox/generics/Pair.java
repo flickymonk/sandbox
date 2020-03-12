@@ -21,8 +21,12 @@ public final class Pair<T1, T2> {
         return second;
     }
 
+    public Pair<T2, T1> swap() {
+        return new Pair<>(second, first);
+    }
+
     public static <T1, T2> Pair<T2, T1> swap(Pair<T1, T2> pair) {
-        return new Pair<>(pair.second, pair.first);
+        return pair.swap();
     }
 
     public static Pair<Void, Void> empty() {
