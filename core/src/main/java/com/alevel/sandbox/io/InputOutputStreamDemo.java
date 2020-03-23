@@ -14,8 +14,7 @@ public class InputOutputStreamDemo {
                 out.write(buffer, 0, read);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new UncheckedIOException(e);
         }
     }
 }

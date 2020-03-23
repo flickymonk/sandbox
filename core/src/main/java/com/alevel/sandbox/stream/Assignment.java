@@ -45,7 +45,6 @@ public final class Assignment {
 
             return Arrays.stream(numbers).reduce((max, next) -> {
                 int occurrencesOfNext = occurrences.merge(next, 1, Integer::sum);
-                if (max == next) return max;
                 int occurrencesOfMax = occurrences.computeIfAbsent(max, key -> 1);
                 return occurrencesOfNext > occurrencesOfMax ? next : max;
             }).orElseThrow(() -> new IllegalArgumentException(

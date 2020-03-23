@@ -14,8 +14,7 @@ public class SerializationDemo {
         try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(destination))) {
             out.writeObject(box);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new UncheckedIOException(e);
         }
 
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(destination))) {
@@ -25,8 +24,7 @@ public class SerializationDemo {
                 System.out.println(deserializedBox);
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
 
     }
@@ -39,8 +37,7 @@ public class SerializationDemo {
                 System.err.println("File already exists");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new UncheckedIOException(e);
         }
         return destination;
     }

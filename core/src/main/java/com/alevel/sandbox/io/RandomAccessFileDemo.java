@@ -2,6 +2,7 @@ package com.alevel.sandbox.io;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.UncheckedIOException;
 
 public class RandomAccessFileDemo {
     public static void main(String[] args) {
@@ -30,8 +31,7 @@ public class RandomAccessFileDemo {
             file.setLength(initialLength);
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new UncheckedIOException(e);
         }
     }
 }

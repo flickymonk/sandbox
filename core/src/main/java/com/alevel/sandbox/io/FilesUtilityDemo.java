@@ -16,6 +16,6 @@ public class FilesUtilityDemo {
                 .filter(Character::isDigit)
                 .map(codepoint -> Character.digit(codepoint, 10))
                 .reduce((number, next) -> number * 10 + next)
-                .ifPresent(number -> System.out.print(System.lineSeparator() + number));
+                .ifPresent(number -> System.out.println(System.lineSeparator() + number));
     }
 }
