@@ -18,6 +18,7 @@
         <module>springbox</module>
         <module>unittestbox</module>
         <module>todolist-spring-web</module>
+        <module>jdbcbox</module>
     </modules>
 
 </project>
