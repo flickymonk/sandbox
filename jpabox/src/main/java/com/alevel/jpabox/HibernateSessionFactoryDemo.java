@@ -20,17 +20,17 @@ public class HibernateSessionFactoryDemo {
 
         Configuration configuration = new Configuration().configure();
 
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
-            Transaction transaction = null;
-            try (Session session = sessionFactory.openSession()) {
-                transaction = session.beginTransaction();
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            try {
+                session.beginTransaction();
 
                 Query<?> deletePlayers = session.createQuery("delete Player");
                 deletePlayers.executeUpdate();
 
                 Query<Player> listPlayers = session.createQuery("from Player", Player.class);
                 List<Player> players = listPlayers.list();
-                System.out.println(players);
+                logger.info("Players: {}", players);
 
                 Query<?> deleteGuilds = session.createQuery("delete Guild");
                 deleteGuilds.executeUpdate();
@@ -48,12 +48,10 @@ public class HibernateSessionFactoryDemo {
                         .allMatch(Predicate.isEqual(p1));
                 logger.info("Do we have our player: {}", onlyOurPlayer);
 
-                transaction.commit();
+                session.getTransaction().commit();
 
             } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
+                session.getTransaction().rollback();
                 logger.error("Error during transaction", e);
             }
         }

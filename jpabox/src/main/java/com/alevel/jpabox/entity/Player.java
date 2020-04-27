@@ -1,13 +1,8 @@
 package com.alevel.jpabox.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "players")
@@ -27,6 +22,13 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "guild_id")
     private Guild guild;
+
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id")
+    )
+    private List<PlayerClass> classes = new ArrayList<>();
 
     public Player() {
     }
@@ -69,4 +71,16 @@ public class Player {
         this.guild = guild;
     }
 
+    public List<PlayerClass> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<PlayerClass> classes) {
+        this.classes = classes;
+    }
+
+    public void addClass(PlayerClass playerClass) {
+        classes.add(playerClass);
+        playerClass.getPlayers().add(this);
+    }
 }

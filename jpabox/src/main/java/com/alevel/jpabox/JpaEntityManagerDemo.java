@@ -3,7 +3,9 @@ package com.alevel.jpabox;
 import com.alevel.jpabox.entity.Guild;
 import com.alevel.jpabox.entity.Player;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +23,7 @@ public class JpaEntityManagerDemo {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().configure();
 
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-
-        try(sessionFactory) {
+        try(SessionFactory sessionFactory = configuration.buildSessionFactory()) {
             EntityManager entityManager = sessionFactory.createEntityManager();
             log.info("Creating initial data");
 //            addPlayerAndGuild(entityManager);
@@ -81,7 +81,8 @@ public class JpaEntityManagerDemo {
         CriteriaQuery<Guild> cq = cb.createQuery(Guild.class);
         Root<Guild> from = cq.from(Guild.class);
         CriteriaQuery<Guild> wherePlayersEmpty = cq.select(from).where(cb.isEmpty(from.get("players")));
-        List<Guild> emptyGuilds = entityManager.createQuery(wherePlayersEmpty).getResultList();
+        TypedQuery<Guild> query = entityManager.createQuery(wherePlayersEmpty);
+        List<Guild> emptyGuilds = query.getResultList();
         log.info("We have {} empty guilds", emptyGuilds.size());
     }
 }
