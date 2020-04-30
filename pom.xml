@@ -19,6 +19,7 @@
         <module>unittestbox</module>
         <module>todolist-spring-web</module>
         <module>jdbcbox</module>
+        <module>mobile-operator</module>
     </modules>
 
 </project>
