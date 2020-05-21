@@ -37,8 +37,8 @@ final class Race {
     }
 
     public void startAndWait() {
+        lock.lock();
         try {
-            lock.lock();
             start();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -57,6 +57,7 @@ final class Race {
         }
         countDownLatch.await();
         participants.clear();
+        countDownLatch = null;
     }
 
     private void finish(Horse horse) {

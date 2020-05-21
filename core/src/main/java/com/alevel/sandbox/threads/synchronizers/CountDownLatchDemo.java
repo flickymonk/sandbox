@@ -15,11 +15,14 @@ public class CountDownLatchDemo {
         Set<String> finished = ConcurrentHashMap.newKeySet(tasks);
 
         Runnable work = () -> {
-            sleep1second();
-            String name = Thread.currentThread().getName();
-            System.out.println(name + " working");
-            finished.add(name);
-            counter.countDown();
+            try {
+                sleep1second();
+                String name = Thread.currentThread().getName();
+                System.out.println(name + " working");
+                finished.add(name);
+            } finally {
+                counter.countDown();
+            }
         };
 
         for (int i = 0; i < tasks; i++) {
@@ -37,9 +40,7 @@ public class CountDownLatchDemo {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            if (Thread.interrupted()) {
-                e.printStackTrace();
-            }
+            throw new RuntimeException(e);
         }
     }
 

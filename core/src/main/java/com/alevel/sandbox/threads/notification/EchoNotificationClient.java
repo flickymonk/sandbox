@@ -2,7 +2,10 @@ package com.alevel.sandbox.threads.notification;
 
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -25,14 +28,18 @@ class EchoNotificationClient implements NotificationClient {
     public void send(PrintStream destination) {
         String message = scanner.nextLine();
 
-        Deque<Future<?>> tasks = new ArrayDeque<>(echoCount);
+        List<Future<?>> tasks = new ArrayList<>(echoCount);
         for (int i = 0; i < echoCount; i++) {
             Future<?> future = executorService.submit(new NotificationTask(destination, "echo-" + i + ": " + message));
             tasks.add(future);
         }
 
-        while (!tasks.isEmpty()) {
-            tasks.removeIf(Future::isDone);
+        for (Future<?> task : tasks) {
+            try {
+                task.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

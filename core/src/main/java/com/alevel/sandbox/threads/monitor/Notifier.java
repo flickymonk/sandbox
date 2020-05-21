@@ -14,13 +14,12 @@ class Notifier implements Runnable {
         System.out.println(name + " started");
         try {
             Thread.sleep(1000);
-            synchronized (msg) {
-                msg.setMessage(name + " work done");
-                msg.notifyAll();
-            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        synchronized (msg) {
+            msg.setMessage(name + " work done");
+            msg.notifyAll();
+        }
     }
 }

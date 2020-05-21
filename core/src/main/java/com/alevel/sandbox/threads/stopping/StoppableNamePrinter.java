@@ -2,20 +2,21 @@ package com.alevel.sandbox.threads.stopping;
 
 public class StoppableNamePrinter implements Runnable, Stoppable {
 
-    private boolean running = true;
+    private volatile boolean running = true;
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
         System.out.println("Stopping execution");
         running = false;
+        notify();
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (running) {
             System.out.println(Thread.currentThread().getName() + " is running");
             try {
-                Thread.sleep(50);
+                wait(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
