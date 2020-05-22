@@ -5,10 +5,8 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Phaser;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 final class Race {
 
@@ -18,60 +16,45 @@ final class Race {
 
     private final Set<Horse> participants;
 
-    private CountDownLatch countDownLatch;
-
     private final AtomicInteger placeCounter;
 
-    private final Lock lock;
+    private final Phaser phaser;
+
+    private final Random random;
 
     Race(int distance) {
         this.distance = distance;
         finished = new ConcurrentHashMap<>();
         participants = ConcurrentHashMap.newKeySet();
         placeCounter = new AtomicInteger();
-        lock = new ReentrantLock(true);
+        phaser = new Phaser();
+        random = new Random();
     }
 
     int getDistance() {
         return distance;
     }
 
-    public void startAndWait() {
-        lock.lock();
-        try {
-            start();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    private void start() throws InterruptedException {
-        placeCounter.set(0);
-        finished.clear();
-        int numberOfHorses = participants.size();
-        countDownLatch = new CountDownLatch(numberOfHorses);
-        for (Horse horse : participants) {
-            new Thread(horse, horse.name + " Thread").start();
-        }
-        countDownLatch.await();
-        participants.clear();
-        countDownLatch = null;
-    }
-
-    private void finish(Horse horse) {
-        int place = placeCounter.incrementAndGet();
-        finished.put(horse, place);
-        countDownLatch.countDown();
-    }
-
-    public int getPlace(Horse horse) {
+    int getPlace(Horse horse) {
         Integer place = finished.get(horse);
         if (place == null) {
             throw new IllegalStateException("Horse " + horse + " did not finish the race");
         }
         return place;
+    }
+
+    synchronized void startAndWait() {
+        placeCounter.set(1);
+        finished.clear();
+        int numberOfHorses = participants.size();
+        phaser.bulkRegister(numberOfHorses);
+        int start = phaser.getPhase();
+        for (Horse horse : participants) {
+            new Thread(horse, horse.name + " Thread").start();
+        }
+        int finish = phaser.awaitAdvance(start);
+        phaser.awaitAdvance(finish);
+        System.out.println("All horses finished the race!");
     }
 
     final static class Horse implements Runnable {
@@ -81,8 +64,6 @@ final class Race {
 
         private static final int MIN_SLEEP = 400;
         private static final int MAX_SLEEP = 500;
-
-        private final Random random = new Random();
 
         private final String name;
 
@@ -95,21 +76,38 @@ final class Race {
         }
 
         void addToRace(Race race) {
+            removeFromRace();
             this.race = race;
             race.participants.add(this);
+        }
+
+        void removeFromRace() {
+            if (race == null) return;
+            race.participants.remove(this);
+        }
+
+        String getName() {
+            return name;
         }
 
         @Override
         public void run() {
             if (race == null) return;
             position = 0;
+
+            System.out.println(name + " is ready!");
+            race.phaser.arriveAndAwaitAdvance();
             System.out.println(name + " started the race!");
+
             int distance = race.distance;
             do {
-                delay();
                 move();
+                delay();
             } while (position < distance);
-            race.finish(this);
+
+            int place = race.placeCounter.getAndIncrement();
+            race.finished.put(this, place);
+            race.phaser.arriveAndDeregister();
         }
 
         private void delay() {
@@ -127,15 +125,11 @@ final class Race {
                     race.distance - position
             );
             position += move;
-            System.out.println(name + " ran " + move + " meters, total of " + position);
+            System.out.printf("%s ran %d meters, total of %d%n", name, move, position);
         }
 
         private int randomInBounds(int max, int min) {
-            return random.nextInt(max - min + 1) + min;
-        }
-
-        String getName() {
-            return name;
+            return race.random.nextInt(max - min + 1) + min;
         }
 
         @Override

@@ -10,7 +10,7 @@ public class Hippodrome {
 
         Race race = new Race(RACE_LENGTH);
 
-        Race.Horse[] horses = new Race.Horse[] {
+        Race.Horse[] horses = {
                 new Race.Horse("Horse One"),
                 new Race.Horse("Horse Two"),
                 new Race.Horse("Horse Three"),
@@ -29,11 +29,9 @@ public class Hippodrome {
         }
 
         int horseNumber;
-
-        try(Scanner scanner = new Scanner(System.in)) {
-            while ((horseNumber = scanner.nextInt()) > numberOfHorses || horseNumber <= 0) {
-                System.out.println("No horse with such number is present. Choose once again!");
-            }
+        Scanner scanner = new Scanner(System.in);
+        while ((horseNumber = scanner.nextInt()) > numberOfHorses || horseNumber <= 0) {
+            System.out.println("No horse with such number is present. Choose once again!");
         }
 
         Race.Horse chosen = horses[horseNumber - 1];
