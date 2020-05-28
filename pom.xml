@@ -20,6 +20,7 @@
         <module>todolist-spring-web</module>
         <module>jdbcbox</module>
         <module>mobile-operator</module>
+        <module>jeebox</module>
     </modules>
 
 </project>
