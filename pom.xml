@@ -21,6 +21,7 @@
         <module>jdbcbox</module>
         <module>mobile-operator</module>
         <module>jeebox</module>
+        <module>message-store</module>
     </modules>
 
 </project>

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Component
+@Component("companion")
 public class CompanionCube {
 
-    private static Logger log = LoggerFactory.getLogger(CompanionCube.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanionCube.class);
 
     private final Incinerator incinerator;
 
