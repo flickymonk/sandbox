@@ -6,6 +6,14 @@ public class SaveMessageRequest {
 
     private String text;
 
+    public SaveMessageRequest() {
+    }
+
+    public SaveMessageRequest(String title, String text) {
+        this.title = title;
+        this.text = text;
+    }
+
     public String getTitle() {
         return title;
     }
