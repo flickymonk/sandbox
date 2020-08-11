@@ -33,7 +33,7 @@ public class JdbcBoxRunner {
             }
 
             try(PreparedStatement getActiveNumbersAndNamesLike = connection.prepareStatement(
-                    "SELECT phone, name FROM phone_book WHERE active = true AND phone LIKE ?")) {
+                    "SELECT phone_number, name FROM phone_book WHERE active = true AND phone_number LIKE ?")) {
 
                 getActiveNumbersAndNamesLike.setString(1, "380%");
 
@@ -41,7 +41,7 @@ public class JdbcBoxRunner {
 
                 while (resultSet.next()) {
 
-                    String phone = resultSet.getString("phone");
+                    String phone = resultSet.getString("phone_number");
                     String name = resultSet.getString("name");
 
                     log.info("Active contact with matching number found. Phone: {}, name: {}", phone, name);
@@ -55,7 +55,7 @@ public class JdbcBoxRunner {
             };
 
             try(PreparedStatement insertContact = connection.prepareStatement(
-                    "INSERT INTO phone_book (phone, name, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;",
+                    "INSERT INTO phone_book (phone_number, name, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;",
                     PreparedStatement.RETURN_GENERATED_KEYS
             )) {
 

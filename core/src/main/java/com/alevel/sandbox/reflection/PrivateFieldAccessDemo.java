@@ -5,10 +5,10 @@ import java.lang.reflect.Field;
 public class PrivateFieldAccessDemo {
 
     public static void main(String[] args) {
-        PrivateFieldHolder instance = new PrivateFieldHolder();
+        Object instance = new PrivateFieldHolder();
 
         try {
-            Class<? extends PrivateFieldHolder> classOfInstance = instance.getClass();
+            Class<?> classOfInstance = instance.getClass();
 
             Field secret = classOfInstance.getDeclaredField("secret");
 

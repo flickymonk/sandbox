@@ -41,14 +41,52 @@ public final class Assignment {
         }
 
         public static int find(int... numbers) {
-            Map<Integer, Integer> occurrences = new HashMap<>();
 
-            return Arrays.stream(numbers).reduce((max, next) -> {
-                int occurrencesOfNext = occurrences.merge(next, 1, Integer::sum);
-                int occurrencesOfMax = occurrences.computeIfAbsent(max, key -> 1);
-                return occurrencesOfNext > occurrencesOfMax ? next : max;
-            }).orElseThrow(() -> new IllegalArgumentException(
-                    "Could not find the most commonly occurring element in an empty array"));
+            class MostCommon {
+
+                int mc;
+
+                final Map<Integer, Integer> occurrences = new HashMap<>();
+
+                void next(int next) {
+                    next(next, 1);
+                }
+
+                void next(int next, int times) {
+                    if (isEmpty()) {
+                        occurrences.put(next, times);
+                        mc = next;
+                        return;
+                    }
+                    int occurrencesOfNext = occurrences.merge(next, times, Integer::sum);
+                    if (mc == next) return;
+                    int occurrencesOfMax = occurrences.get(mc);
+                    if (occurrencesOfNext > occurrencesOfMax) {
+                        mc = next;
+                    }
+                }
+
+                boolean isEmpty() {
+                    return occurrences.isEmpty();
+                }
+
+                void merge(MostCommon other) {
+                    other.occurrences.forEach(this::next);
+                }
+
+                int unwrap() {
+                    if (isEmpty()) {
+                        throw new IllegalArgumentException(
+                                "Could not find the most commonly occurring element in an empty array");
+                    }
+                    return mc;
+                }
+
+            }
+
+            return Arrays.stream(numbers)
+                    .collect(MostCommon::new, MostCommon::next, MostCommon::merge)
+                    .unwrap();
         }
 
     }
@@ -68,7 +106,7 @@ public final class Assignment {
             );
             System.out.println(timestamps);
 
-            SortedMap<LocalDate, List<LocalTime>> byDate = groupByDateAscending(timestamps);
+            SortedMap<LocalDate, SortedSet<LocalTime>> byDate = groupByDateAscending(timestamps);
             System.out.println(byDate);
 
             String newline = System.lineSeparator();
@@ -78,12 +116,13 @@ public final class Assignment {
             System.out.print(humanReadableOutput);
         }
 
-        public static SortedMap<LocalDate, List<LocalTime>> groupByDateAscending(Collection<LocalDateTime> timestamps) {
+        public static SortedMap<LocalDate, SortedSet<LocalTime>>
+        groupByDateAscending(Collection<LocalDateTime> timestamps) {
 
             return timestamps.stream().collect(groupingBy(
                     LocalDateTime::toLocalDate,
                     TreeMap::new,
-                    mapping(LocalDateTime::toLocalTime, toList())
+                    mapping(LocalDateTime::toLocalTime, toCollection(TreeSet::new))
             ));
         }
     }
