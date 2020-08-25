@@ -42,7 +42,7 @@ public class HibernateSessionFactoryDemo {
                 session.saveOrUpdate(p1);
                 session.saveOrUpdate(alevel);
 
-                Guild guildByOurId = session.find(Guild.class, alevel.getId());
+                Guild guildByOurId = session.load(Guild.class, alevel.getId());
                 boolean onlyOurPlayer = guildByOurId.getPlayers().stream()
                         .allMatch(Predicate.isEqual(p1));
                 logger.info("Do we have our player: {}", onlyOurPlayer);

@@ -7,6 +7,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients")
+@NamedEntityGraph(
+        name = "client-accounts",
+        includeAllAttributes = true,
+        attributeNodes = {
+                @NamedAttributeNode(value = "accounts", subgraph = "accounts")
+        },
+        subgraphs = @NamedSubgraph(
+                name = "accounts",
+                attributeNodes = {
+                        @NamedAttributeNode("phoneNumber"),
+                })
+)
 public class Client {
 
     @Id

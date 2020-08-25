@@ -3,9 +3,7 @@ package com.alevel.jpabox;
 import com.alevel.jpabox.entity.Guild;
 import com.alevel.jpabox.entity.Player;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
