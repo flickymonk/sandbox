@@ -1,6 +1,6 @@
 package com.alevel.java.messagestore.repository;
 
-import com.alevel.java.messagestore.entity.Message;
+import com.alevel.java.messagestore.model.message.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

@@ -1,9 +1,13 @@
-package com.alevel.java.messagestore.entity.request;
+package com.alevel.java.messagestore.model.message;
+
+import javax.validation.constraints.NotBlank;
 
 public class SaveMessageRequest {
 
+    @NotBlank(message = "Title is mandatory")
     private String title;
 
+    @NotBlank(message = "Text content is mandatory")
     private String text;
 
     public SaveMessageRequest() {

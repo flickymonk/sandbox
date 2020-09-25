@@ -1,26 +1,33 @@
 spring:
   profiles:
     active: local-dev
-
+  jpa:
+    open-in-view: false
+server:
+  http2:
+    enabled: true
+  error:
+    include-message: always
+    include-binding-errors: always
+springdoc:
+  show-actuator: true
+management:
+  endpoint:
+    health:
+      show-details: always
 ---
 spring.profiles: local-dev
 spring:
   profiles:
-    include: local-postgresql-credentials,debug
+    include: debug
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/messages
-
----
-spring:
-  profiles: local-postgresql-credentials
-  datasource:
+    url: jdbc:postgresql://${MESSAGE_DB_HOST:localhost}:5432/messages
     username: postgres
     password: changeme
 
 ---
-spring:
-  profiles: debug
+spring.profiles: debug
 logging:
   level:
     com.alevel.java.messagestore: debug

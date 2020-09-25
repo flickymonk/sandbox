@@ -1,4 +1,4 @@
-package com.alevel.java.messagestore.entity;
+package com.alevel.java.messagestore.model.message;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -19,6 +19,17 @@ public class Message {
     private String text;
 
     public Message() {
+    }
+
+    public Message(String title, String text) {
+        this.title = title;
+        this.text = text;
+    }
+
+    public Message(UUID id, String title, String text) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
     }
 
     public UUID getId() {
