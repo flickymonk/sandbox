@@ -50,11 +50,8 @@ class MessageServiceTest {
 
         Optional<MessageResponse> presentResponse = messageService.getById(presentId);
 
-        assertThat(presentResponse).hasValueSatisfying(messageResponse -> {
-            assertThat(messageResponse.getId()).isEqualTo(message.getId());
-            assertThat(messageResponse.getTitle()).isEqualTo(message.getTitle());
-            assertThat(messageResponse.getText()).isEqualTo(message.getText());
-        });
+        assertThat(presentResponse).hasValueSatisfying(messageResponse ->
+                assertMessageMatchesResponse(message, messageResponse));
         verify(messageRepository).findById(presentId);
 
         verifyNoMoreInteractions(messageRepository);
@@ -104,11 +101,8 @@ class MessageServiceTest {
 
         Optional<MessageResponse> presentResponse = messageService.deleteById(presentId);
 
-        assertThat(presentResponse).hasValueSatisfying(messageResponse -> {
-            assertThat(messageResponse.getId()).isEqualTo(message.getId());
-            assertThat(messageResponse.getTitle()).isEqualTo(message.getTitle());
-            assertThat(messageResponse.getText()).isEqualTo(message.getText());
-        });
+        assertThat(presentResponse).hasValueSatisfying(messageResponse ->
+                assertMessageMatchesResponse(message, messageResponse));
         verify(messageRepository).findById(presentId);
         verify(messageRepository).delete(message);
 
@@ -135,5 +129,11 @@ class MessageServiceTest {
         assertThat(response.getTitle()).isEqualTo(request.getTitle());
         assertThat(response.getText()).isEqualTo(request.getText());
         verify(messageRepository, only()).save(notNull());
+    }
+
+    private static void assertMessageMatchesResponse(Message message, MessageResponse messageResponse) {
+        assertThat(messageResponse.getId()).isEqualTo(message.getId());
+        assertThat(messageResponse.getTitle()).isEqualTo(message.getTitle());
+        assertThat(messageResponse.getText()).isEqualTo(message.getText());
     }
 }
