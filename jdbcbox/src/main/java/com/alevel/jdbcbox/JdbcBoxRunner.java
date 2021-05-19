@@ -23,9 +23,10 @@ public class JdbcBoxRunner {
         log.info("Connecting to {}", url);
 
         try(Connection connection = DriverManager.getConnection(url, props)) {
+            connection.setAutoCommit(false);
 
             try(Statement getTime = connection.createStatement()) {
-                ResultSet resultSet = getTime.executeQuery("SELECT current_timestamp;");
+                ResultSet resultSet = getTime.executeQuery("SELECT current_timestamp");
                 if (resultSet.next()) {
                     Timestamp timestamp = resultSet.getTimestamp(1);
                     log.info("Database timestamp {}", timestamp);
@@ -33,7 +34,7 @@ public class JdbcBoxRunner {
             }
 
             try(PreparedStatement getActiveNumbersAndNamesLike = connection.prepareStatement(
-                    "SELECT phone_number, name FROM phone_book WHERE active = true AND phone_number LIKE ?")) {
+                    "SELECT phone_number, name FROM phonebook WHERE active = true AND phone_number LIKE ?")) {
 
                 getActiveNumbersAndNamesLike.setString(1, "380%");
 
@@ -50,19 +51,20 @@ public class JdbcBoxRunner {
 
             Contact[] contacts = {
                     new Contact("10438530324", "John Doe", null),
-                    new Contact("10438530325", "Jane Doe", null),
+                    new Contact("10438530325", "Jane Doe", null, false),
                     new Contact("10438530326", "Carl Doe", "Son of John and Jane Doe")
             };
 
             try(PreparedStatement insertContact = connection.prepareStatement(
-                    "INSERT INTO phone_book (phone_number, name, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;",
+                    "INSERT INTO phonebook (phone_number, name, description, active) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
                     PreparedStatement.RETURN_GENERATED_KEYS
             )) {
 
                 for (Contact contact : contacts) {
-                    insertContact.setString(1, contact.getPhoneNumber());
-                    insertContact.setString(2, contact.getName());
-                    insertContact.setString(3, contact.getDescription());
+                    insertContact.setString(1, contact.phoneNumber());
+                    insertContact.setString(2, contact.name());
+                    insertContact.setString(3, contact.description());
+                    insertContact.setBoolean(4, contact.active());
 
                     insertContact.addBatch();
                 }
@@ -74,6 +76,10 @@ public class JdbcBoxRunner {
                 while (generatedKeys.next()) {
                     log.info("inserted new contact. ID : {}", generatedKeys.getLong("id"));
                 }
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(e);
             }
 
         } catch (SQLException e) {
@@ -85,7 +91,7 @@ public class JdbcBoxRunner {
 
         Properties props = new Properties();
 
-        try(InputStream input = JdbcBoxRunner.class.getResourceAsStream("JdbcBox.properties")) {
+        try(InputStream input = JdbcBoxRunner.class.getResourceAsStream("/jdbc.properties")) {
             props.load(input);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
