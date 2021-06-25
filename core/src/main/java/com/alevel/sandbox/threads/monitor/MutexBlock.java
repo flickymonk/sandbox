@@ -3,7 +3,7 @@ package com.alevel.sandbox.threads.monitor;
 public class MutexBlock {
 
     public static void main(String[] args) {
-        Message msg = new Message("process it");
+        Message msg = new Message();
         Waiter waiter1 = new Waiter(msg);
         Waiter waiter2 = new Waiter(msg);
         Notifier notifier = new Notifier(msg);

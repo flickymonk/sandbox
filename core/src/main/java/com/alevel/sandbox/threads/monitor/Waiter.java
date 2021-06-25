@@ -16,7 +16,8 @@ class Waiter implements Runnable {
                 System.out.println(name + " waiting to get notified at time: " + System.currentTimeMillis());
                 msg.wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
             }
             System.out.println(name + " got notified at time: " + System.currentTimeMillis());
             //process the message now

@@ -15,7 +15,8 @@ class Notifier implements Runnable {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
         }
         synchronized (msg) {
             msg.setMessage(name + " work done");
