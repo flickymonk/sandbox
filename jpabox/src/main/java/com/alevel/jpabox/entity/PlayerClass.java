@@ -3,8 +3,7 @@ package com.alevel.jpabox.entity;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "classes")
@@ -19,7 +18,7 @@ public class PlayerClass {
     private String name;
 
     @ManyToMany(mappedBy = "classes")
-    private List<Player> players = new ArrayList<>();
+    private Set<Player> players = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -37,11 +36,24 @@ public class PlayerClass {
         this.name = name;
     }
 
-    public List<Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerClass that = (PlayerClass) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
     }
 }

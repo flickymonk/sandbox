@@ -2,6 +2,7 @@ package com.alevel.jpabox;
 
 import com.alevel.jpabox.entity.Guild;
 import com.alevel.jpabox.entity.Player;
+import com.alevel.jpabox.entity.PlayerClass;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -24,6 +25,9 @@ public class HibernateSessionFactoryDemo {
             try {
                 session.beginTransaction();
 
+                Query<?> deletePlayerClasses = session.createQuery("delete PlayerClass");
+                deletePlayerClasses.executeUpdate();
+
                 Query<?> deletePlayers = session.createQuery("delete Player");
                 deletePlayers.executeUpdate();
 
@@ -41,6 +45,13 @@ public class HibernateSessionFactoryDemo {
                 alevel.addPlayer(p1);
                 session.saveOrUpdate(p1);
                 session.saveOrUpdate(alevel);
+
+                var playerClass = new PlayerClass();
+                playerClass.setName("Warrior");
+                p1.getClasses().add(playerClass);
+                playerClass.getPlayers().add(p1);
+
+                session.save(playerClass);
 
                 Guild guildByOurId = session.load(Guild.class, alevel.getId());
                 boolean onlyOurPlayer = guildByOurId.getPlayers().stream()

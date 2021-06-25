@@ -1,8 +1,8 @@
 package com.alevel.jpabox.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -17,8 +17,9 @@ public class Player {
 
     private Integer score;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guild_id")
+    @Access(AccessType.PROPERTY)
     private Guild guild;
 
     @ManyToMany
@@ -26,7 +27,7 @@ public class Player {
             joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id")
     )
-    private List<PlayerClass> classes = new ArrayList<>();
+    private Set<PlayerClass> classes = new HashSet<>();
 
     public Player() {
     }
@@ -69,11 +70,11 @@ public class Player {
         this.guild = guild;
     }
 
-    public List<PlayerClass> getClasses() {
+    public Set<PlayerClass> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<PlayerClass> classes) {
+    public void setClasses(Set<PlayerClass> classes) {
         this.classes = classes;
     }
 
