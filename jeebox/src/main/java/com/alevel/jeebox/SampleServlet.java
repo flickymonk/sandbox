@@ -1,28 +1,29 @@
 package com.alevel.jeebox;
 
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "sample-servlet", urlPatterns = "/sample")
 public class SampleServlet extends HttpServlet {
 
+    private static final long serialVersionUID = -8948379822734246956L;
+
     private static final Logger log = LoggerFactory.getLogger(SampleServlet.class);
 
     @Override
     public void init() {
-        log.info("Sample Servlet initialized");
+        log.info(getServletName() + " initialized");
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter responseBody = resp.getWriter();
 
         resp.setContentType("text/html");
@@ -39,6 +40,6 @@ public class SampleServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        log.info("Sample Servlet destroyed");
+        log.info(getServletName() + " destroyed");
     }
 }
