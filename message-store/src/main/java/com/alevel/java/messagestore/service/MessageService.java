@@ -28,6 +28,7 @@ public class MessageService implements MessageCRUD {
         return MessageResponse.fromMessage(messageRepository.save(message));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<MessageResponse> getById(UUID id) {
         return messageRepository.findById(id).map(MessageResponse::fromMessage);

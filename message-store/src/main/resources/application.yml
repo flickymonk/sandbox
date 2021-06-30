@@ -1,11 +1,13 @@
 spring:
   profiles:
-    active: local-dev
+    active: dev
+    group:
+      dev:
+        - local-dev
+        - debug
   jpa:
     open-in-view: false
 server:
-  http2:
-    enabled: true
   error:
     include-message: always
     include-binding-errors: always
@@ -15,19 +17,3 @@ management:
   endpoint:
     health:
       show-details: always
----
-spring.profiles: local-dev
-spring:
-  profiles:
-    include: debug
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${MESSAGE_DB_HOST:localhost}:5432/messages
-    username: postgres
-    password: changeme
-
----
-spring.profiles: debug
-logging:
-  level:
-    com.alevel.java.messagestore: debug
