@@ -46,9 +46,11 @@ class MessageControllerTest {
 
         when(messageCRUD.getById(id)).thenReturn(Optional.of(response));
 
-        var expectedJson = "{\"id\":\"" + id + "\",\"title\":\"title\",\"text\":\"text\"}";
+        var expectedJson = """
+                {"id":"%s","title":"title","text":"text"}
+                """.formatted(id);
 
-        mvc.perform(get("/messages/" + id))
+        mvc.perform(get("/messages/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedJson));
@@ -63,7 +65,7 @@ class MessageControllerTest {
 
         when(messageCRUD.getById(id)).thenReturn(Optional.empty());
 
-        mvc.perform(get("/messages/" + id))
+        mvc.perform(get("/messages/{id}", id))
                 .andExpect(status().isNotFound());
 
         verify(messageCRUD, only()).getById(id);
@@ -77,11 +79,15 @@ class MessageControllerTest {
 
         when(messageCRUD.create(request)).thenReturn(response);
 
-        var expectedJson = "{\"id\":\"" + id + "\",\"title\":\"title\",\"text\":\"text\"}";
+        var expectedJson =  """
+                {"id":"%s","title":"title","text":"text"}
+                """.formatted(id);
 
         mvc.perform(post("/messages")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"title\":\"title\",\"text\":\"text\"}"))
+                .content("""
+                        {"title":"title","text":"text"}
+                        """))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedJson));
@@ -94,9 +100,11 @@ class MessageControllerTest {
         var request = new SaveMessageRequest("title", "text");
         var id = UUID.randomUUID();
 
-        mvc.perform(put("/messages/" + id)
+        mvc.perform(put("/messages/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"title\":\"title\",\"text\":\"text\"}"))
+                .content("""
+                        {"title":"title","text":"text"}
+                        """))
                 .andExpect(status().isNoContent());
 
         verify(messageCRUD, only()).update(id, request);
@@ -106,17 +114,20 @@ class MessageControllerTest {
     void testDeleteMessage() throws Exception {
         var id = UUID.randomUUID();
         var response = new MessageResponse(id, "title", "text");
-        var expectedJson = "{\"id\":\"" + id + "\",\"title\":\"title\",\"text\":\"text\"}";
+
+        var expectedJson =  """
+                {"id":"%s","title":"title","text":"text"}
+                """.formatted(id);
 
         when(messageCRUD.deleteById(id))
                 .thenReturn(Optional.of(response))
                 .thenReturn(Optional.empty());
 
-        mvc.perform(delete("/messages/" + id))
+        mvc.perform(delete("/messages/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
 
-        mvc.perform(delete("/messages/" + id))
+        mvc.perform(delete("/messages/{id}", id))
                 .andExpect(status().isNotFound());
 
         verify(messageCRUD, times(2)).deleteById(id);
