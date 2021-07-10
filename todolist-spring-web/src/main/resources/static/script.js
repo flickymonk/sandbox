@@ -45,14 +45,18 @@ const createTodo = () => {
         done: false //initial value is false
     };
     //In POST request - send new object to the server
-    axios.post('todo', newTodo)
-        .then(result => {
-            //server endpoint responds with [id] from the database
-            newTodo.id = result.data.id;
-            addElement(newTodo);
-            todoInput.value = '';
-        })
-        .catch(reason => console.error(reason));
+    fetch('todo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTodo)
+    }).then(result => result.json()).then(result => {
+        //server endpoint responds with [id] from the database
+        newTodo.id = result.id;
+        addElement(newTodo);
+        todoInput.value = '';
+    }).catch(reason => console.error(reason));
 };
 
 const deleteDone = () => {
@@ -63,16 +67,20 @@ const deleteDone = () => {
     //We use PUT request to "delete" todos, since DELETE method doesn't specify request body in HTTP standard
     //What is actually done is we set done to true in the database
     //so it doesn't return us done items when we reload page
-    axios.put('todo', done)
-        .then(() => {
-            //We retrieve all <li> which have class 'checked' and construct an array from the NodeList we get.
-            const checkedLIs = Array.from(todosHtml.getElementsByClassName('checked'));
-            //We remove all the items we no longer need from the DOM
-            checkedLIs.forEach(li => li.remove());
-            //We reassign todos array to its subset of items which are not yet done
-            todos = todos.filter(todo => !todo.done);
-        })
-        .catch(reason => console.error(reason))
+    fetch('todo', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(done)
+    }).then(() => {
+        //We retrieve all <li> which have class 'checked' and construct an array from the NodeList we get.
+        const checkedLIs = Array.from(todosHtml.getElementsByClassName('checked'));
+        //We remove all the items we no longer need from the DOM
+        checkedLIs.forEach(li => li.remove());
+        //We reassign todos array to its subset of items which are not yet done
+        todos = todos.filter(todo => !todo.done);
+    }).catch(reason => console.error(reason))
 };
 
 //Adds event listeners to buttons and text fields
@@ -90,11 +98,12 @@ const setupListeners = () => {
 };
 
 //When page loads, we send GET request to the server
-axios.get('todo')
+fetch('todo')
+    .then(result => result.json())
     .then(result => { //if request was successfully served, we get back the data
 
         //for each of todos we get back from server, we create a list element with corresponding text
-        result.data.forEach(addElement);
+        result.forEach(addElement);
 
         //After this, we can work with our list, thus we add event listeners to our controls.
         setupListeners();
