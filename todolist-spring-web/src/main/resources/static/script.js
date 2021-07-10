@@ -1,13 +1,14 @@
 //Input field for user to create new todos
-const todoInput = document.getElementById("todo-input");
+const todoInput = document.getElementById('todo-input');
 
 //<ul> with todos
-const todosHtml = document.getElementById("todos");
+const todosHtml = document.getElementById('todos');
 
 //Array of objects representing todos with (id, text, done) properties
 //It serves as a model of our data on the front-end
-let todos = [];
-
+const state = {
+    todos: []
+}
 
 //This function adds elements to todosHtml list and updates todos array
 const addElement = todo => {
@@ -27,7 +28,7 @@ const addElement = todo => {
     });
 
     //Add data to the array
-    todos.push(todo);
+    state.todos.push(todo);
 };
 
 //This function creates new list element from the value of the input field
@@ -36,7 +37,7 @@ const createTodo = () => {
 
     //Validate input - we don't need empty text
     if (inputValue === '') {
-        alert("You must write something!");
+        alert('You must write something!');
         return;
     }
 
@@ -62,7 +63,7 @@ const createTodo = () => {
 const deleteDone = () => {
 
     //Get todos with [done] == true
-    const done = todos.filter(todo => todo.done);
+    const done = state.todos.filter(todo => todo.done);
 
     //We use PUT request to "delete" todos, since DELETE method doesn't specify request body in HTTP standard
     //What is actually done is we set done to true in the database
@@ -79,7 +80,7 @@ const deleteDone = () => {
         //We remove all the items we no longer need from the DOM
         checkedLIs.forEach(li => li.remove());
         //We reassign todos array to its subset of items which are not yet done
-        todos = todos.filter(todo => !todo.done);
+        state.todos = state.todos.filter(todo => !todo.done);
     }).catch(reason => console.error(reason))
 };
 
