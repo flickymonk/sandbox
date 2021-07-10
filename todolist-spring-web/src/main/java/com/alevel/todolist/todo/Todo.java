@@ -1,14 +1,13 @@
 package com.alevel.todolist.todo;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "todos")
-public class Todo implements Serializable {
+public class Todo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)

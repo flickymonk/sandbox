@@ -24,7 +24,7 @@ public class MessageService implements MessageCRUD {
 
     @Override
     public MessageResponse create(SaveMessageRequest request) {
-        var message = new Message(request.getTitle(), request.getText());
+        var message = new Message(request.title(), request.text());
         return MessageResponse.fromMessage(messageRepository.save(message));
     }
 
@@ -37,8 +37,8 @@ public class MessageService implements MessageCRUD {
     @Override
     public void update(UUID id, SaveMessageRequest request) {
         var message = messageRepository.findById(id).orElseThrow(() -> messageNotFound(id));
-        message.setText(request.getText());
-        message.setTitle(request.getTitle());
+        message.setText(request.text());
+        message.setTitle(request.title());
         messageRepository.save(message);
     }
 

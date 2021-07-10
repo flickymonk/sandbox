@@ -77,8 +77,8 @@ class MessageServiceTest {
 
         messageService.update(presentId, update);
 
-        assertThat(message.getTitle()).isEqualTo(update.getTitle());
-        assertThat(message.getText()).isEqualTo(update.getText());
+        assertThat(message.getTitle()).isEqualTo(update.title());
+        assertThat(message.getText()).isEqualTo(update.text());
         verify(messageRepository).findById(presentId);
         verify(messageRepository).save(same(message));
 
@@ -117,23 +117,23 @@ class MessageServiceTest {
         when(messageRepository.save(notNull())).thenAnswer(invocation -> {
             Message entity = invocation.getArgument(0);
             assertThat(entity.getId()).isNull();
-            assertThat(entity.getTitle()).isEqualTo(request.getTitle());
-            assertThat(entity.getText()).isEqualTo(request.getText());
+            assertThat(entity.getTitle()).isEqualTo(request.title());
+            assertThat(entity.getText()).isEqualTo(request.text());
             entity.setId(messageId);
             return entity;
         });
 
         MessageResponse response = messageService.create(request);
 
-        assertThat(response.getId()).isEqualTo(messageId);
-        assertThat(response.getTitle()).isEqualTo(request.getTitle());
-        assertThat(response.getText()).isEqualTo(request.getText());
+        assertThat(response.id()).isEqualTo(messageId);
+        assertThat(response.title()).isEqualTo(request.title());
+        assertThat(response.text()).isEqualTo(request.text());
         verify(messageRepository, only()).save(notNull());
     }
 
     private static void assertMessageMatchesResponse(Message message, MessageResponse messageResponse) {
-        assertThat(messageResponse.getId()).isEqualTo(message.getId());
-        assertThat(messageResponse.getTitle()).isEqualTo(message.getTitle());
-        assertThat(messageResponse.getText()).isEqualTo(message.getText());
+        assertThat(messageResponse.id()).isEqualTo(message.getId());
+        assertThat(messageResponse.title()).isEqualTo(message.getTitle());
+        assertThat(messageResponse.text()).isEqualTo(message.getText());
     }
 }

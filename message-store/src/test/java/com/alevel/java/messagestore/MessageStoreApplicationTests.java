@@ -42,9 +42,9 @@ class MessageStoreApplicationTests {
 
         MessageResponse responseBody = messageResponseEntity.getBody();
         assertNotNull(responseBody);
-        assertEquals(title, responseBody.getTitle());
-        assertEquals(text, responseBody.getText());
-        assertNotNull(responseBody.getId());
+        assertEquals(title, responseBody.title());
+        assertEquals(text, responseBody.text());
+        assertNotNull(responseBody.id());
     }
 
     @Test
@@ -70,7 +70,7 @@ class MessageStoreApplicationTests {
         var message = createMessage(title, text).getBody();
         assertNotNull(message);
 
-        UUID id = message.getId();
+        UUID id = message.id();
 
         var messageUrl = baseUrl(id);
 
@@ -81,9 +81,9 @@ class MessageStoreApplicationTests {
 
         MessageResponse responseBody = messageResponseEntity.getBody();
         assertNotNull(responseBody);
-        assertEquals(title, responseBody.getTitle());
-        assertEquals(text, responseBody.getText());
-        assertEquals(id, responseBody.getId());
+        assertEquals(title, responseBody.title());
+        assertEquals(text, responseBody.text());
+        assertEquals(id, responseBody.id());
 
         assertEquals(responseBody, rest.getForEntity(messageUrl, MessageResponse.class).getBody());
     }
@@ -105,7 +105,7 @@ class MessageStoreApplicationTests {
         var message = createMessage(title, text).getBody();
         assertNotNull(message);
 
-        UUID id = message.getId();
+        UUID id = message.id();
 
         var messageUrl = baseUrl(id);
 
@@ -120,9 +120,9 @@ class MessageStoreApplicationTests {
 
         MessageResponse responseBody = messageResponseEntity.getBody();
         assertNotNull(responseBody);
-        assertEquals(updatedTitle, responseBody.getTitle());
-        assertEquals(updatedText, responseBody.getText());
-        assertEquals(id, responseBody.getId());
+        assertEquals(updatedTitle, responseBody.title());
+        assertEquals(updatedText, responseBody.text());
+        assertEquals(id, responseBody.id());
     }
 
     @Test
@@ -133,7 +133,7 @@ class MessageStoreApplicationTests {
         var message = createMessage(title, text).getBody();
         assertNotNull(message);
 
-        UUID id = message.getId();
+        UUID id = message.id();
 
         var messageUrl = baseUrl(id);
         var messageUri = URI.create(messageUrl);
@@ -146,9 +146,9 @@ class MessageStoreApplicationTests {
 
         MessageResponse responseBody = messageResponseEntity.getBody();
         assertNotNull(responseBody);
-        assertEquals(title, responseBody.getTitle());
-        assertEquals(text, responseBody.getText());
-        assertEquals(id, responseBody.getId());
+        assertEquals(title, responseBody.title());
+        assertEquals(text, responseBody.text());
+        assertEquals(id, responseBody.id());
 
         assertEquals(HttpStatus.NOT_FOUND, rest.getForEntity(messageUrl, MessageResponse.class).getStatusCode());
         assertEquals(HttpStatus.NOT_FOUND, rest
@@ -158,9 +158,7 @@ class MessageStoreApplicationTests {
 
     private ResponseEntity<MessageResponse> createMessage(String title, String text) {
         var url = baseUrl();
-        var requestBody = new SaveMessageRequest();
-        requestBody.setTitle(title);
-        requestBody.setText(text);
+        var requestBody = new SaveMessageRequest(title, text);
 
         return rest.postForEntity(url, requestBody, MessageResponse.class);
     }

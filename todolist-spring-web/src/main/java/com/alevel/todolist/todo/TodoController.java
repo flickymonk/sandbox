@@ -2,9 +2,11 @@ package com.alevel.todolist.todo;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/todo")
@@ -29,9 +31,10 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Todo todo) {
+    public ResponseEntity<?> save(@RequestBody Todo todo, UriComponentsBuilder ucb) {
         Long id = todoOperations.save(todo);
-        return ResponseEntity.ok(Collections.singletonMap("id", id));
+        var params = Collections.singletonMap("id", id);
+        return ResponseEntity.created(ucb.path("/todo/{id}").build(params)).body(params);
     }
 
     @PutMapping

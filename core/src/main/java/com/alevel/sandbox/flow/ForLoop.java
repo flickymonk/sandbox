@@ -14,8 +14,8 @@ public class ForLoop {
 
         System.out.println("now, let's do something different");
 
-        for (int i = 0, j = 0; i <= 10; i++, j = i * i) {
-            System.out.println(i + " squared = " + j);
+        for (int i = 0; i <= 10; i++) {
+            System.out.println(i + " squared = " + i * i);
         }
 
     }
