@@ -1,13 +1,15 @@
 package com.alevel.sandbox.threads.reverseprinter;
 
+import java.util.concurrent.Phaser;
+
 public final class ReverseOrderPrintNameTask implements Runnable {
 
     private final int position;
     private final ReverseOrderPrintNameTask previous;
-    private final Barrier barrier;
+    private final Phaser barrier;
 
     public ReverseOrderPrintNameTask(int position,
-                                     Barrier barrier,
+                                     Phaser barrier,
                                      ReverseOrderPrintNameTask previous) {
         this.position = position;
         this.barrier = barrier;
@@ -17,12 +19,12 @@ public final class ReverseOrderPrintNameTask implements Runnable {
     @Override
     public void run() {
         synchronized(this) {
-            barrier.arrive();
             try {
                 if (isLast()) {
-                    barrier.await();
+                    barrier.arriveAndAwaitAdvance();
                 } else {
-                    this.wait();
+                    barrier.arrive();
+                    wait();
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -38,7 +40,7 @@ public final class ReverseOrderPrintNameTask implements Runnable {
     }
 
     private boolean isLast() {
-        return position == barrier.getSize() - 1;
+        return position == barrier.getRegisteredParties() - 1;
     }
 
     private void print() {

@@ -1,34 +1,67 @@
 package com.alevel.sandbox.threads.primecounter;
 
-import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public final class PrimeCounterTask implements Runnable {
 
-    private final Iterator<Integer> numbers;
+    private final ReentrantLock lock = new ReentrantLock();
 
-    private int primes = 0;
+    private final Condition completed = lock.newCondition();
 
-    public PrimeCounterTask(Iterator<Integer> numbers) {
+    private final List<Integer> numbers;
+
+    private final AtomicInteger itr;
+
+    private final int size;
+
+    private final AtomicInteger primes = new AtomicInteger(0);
+
+    public PrimeCounterTask(List<Integer> numbers, AtomicInteger itr) {
         this.numbers = numbers;
+        this.itr = itr;
+        this.size = numbers.size();
     }
 
     @Override
-    public synchronized void run() {
-        while (true) {
-            int next;
-            synchronized (numbers) {
-                if (!numbers.hasNext()) break;
-                next = numbers.next();
+    public void run() {
+        if (complete()) return;
+        lock.lock();
+        try {
+            int i;
+            while ((i = itr.getAndIncrement()) < size) {
+                if (isPrime(numbers.get(i))) {
+                    primes.incrementAndGet();
+                }
             }
-            if (isPrime(next)) {
-                primes++;
-            }
+        } finally {
+            completed.signalAll();
+            lock.unlock();
         }
         System.out.println(Thread.currentThread().getName() + " found " + primes + " prime numbers");
     }
 
-    public synchronized int getCount() {
-        return primes;
+    public int getCount() {
+        if (!complete()) {
+            lock.lock();
+            try {
+                if (!complete()) {
+                    completed.await();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            } finally {
+                lock.unlock();
+            }
+        }
+        return primes.get();
+    }
+
+    private boolean complete() {
+        return itr.get() >= size;
     }
 
     private static boolean isPrime(int number) {

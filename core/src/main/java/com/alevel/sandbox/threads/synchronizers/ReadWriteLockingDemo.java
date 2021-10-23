@@ -92,27 +92,8 @@ public class ReadWriteLockingDemo {
 
         @Override
         public int set(int row, int col, int val) {
-            long stamp = lock.tryOptimisticRead();
-            if (stamp != 0) {
-                int old = super.get(row, col);
-                if(lock.validate(stamp)) {
-                    if (val == old) return val;
-                    stamp = lock.tryConvertToWriteLock(stamp);
-                    if (stamp == 0) stamp = lock.writeLock();
-                    try {
-                        return super.set(row, col, val);
-                    } finally {
-                        lock.unlockWrite(stamp);
-                    }
-                }
-            }
-            stamp = lock.tryConvertToReadLock(stamp);
-            if (stamp == 0) stamp = lock.readLock();
+            long stamp = lock.writeLock();
             try {
-                int old = super.get(row, col);
-                if (old == val) return val;
-                stamp = lock.tryConvertToWriteLock(stamp);
-                if (stamp == 0) stamp = lock.writeLock();
                 return super.set(row, col, val);
             } finally {
                 lock.unlock(stamp);
@@ -124,10 +105,9 @@ public class ReadWriteLockingDemo {
             long stamp = lock.tryOptimisticRead();
             if (stamp != 0) {
                 int value = super.get(row, col);
-                if(lock.validate(stamp)) return value;
+                if (lock.validate(stamp)) return value;
             }
-            stamp = lock.tryConvertToReadLock(stamp);
-            if (stamp == 0) stamp = lock.readLock();
+            stamp = lock.readLock();
             try {
                 return super.get(row, col);
             } finally {
