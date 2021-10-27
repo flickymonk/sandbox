@@ -1,4 +1,4 @@
-FROM tomcat:10.0.7-jdk16-openjdk
+FROM tomcat:jdk17
 
 COPY target/jeebox.war /usr/local/tomcat/webapps/jeebox.war
 
