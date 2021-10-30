@@ -39,7 +39,6 @@ public class MessageService implements MessageCRUD {
         var message = messageRepository.findById(id).orElseThrow(() -> messageNotFound(id));
         message.setText(request.text());
         message.setTitle(request.title());
-        messageRepository.save(message);
     }
 
     @Override
