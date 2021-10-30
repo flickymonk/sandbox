@@ -1,18 +1,15 @@
 package com.alevel.java.messagestore.controller;
 
-import com.alevel.java.messagestore.model.message.SaveMessageRequest;
 import com.alevel.java.messagestore.model.message.MessageResponse;
+import com.alevel.java.messagestore.model.message.SaveMessageRequest;
 import com.alevel.java.messagestore.service.MessageCRUD;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springdoc.core.converters.models.PageableAsQueryParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -29,25 +26,31 @@ public class MessageController {
         this.messageCRUD = messageCRUD;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PageableAsQueryParam
+    public Page<MessageResponse> findAll(@Parameter(hidden = true) Pageable pageable) {
+        return messageCRUD.findAll(pageable);
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public MessageResponse get(@PathVariable UUID id) {
         return messageCRUD.getById(id)
                 .orElseThrow(() -> messageNotFound(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public MessageResponse create(@Valid @RequestBody SaveMessageRequest request) {
         return messageCRUD.create(request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable UUID id, @Valid @RequestBody SaveMessageRequest request) {
-        messageCRUD.update(id ,request);
+        messageCRUD.update(id, request);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public MessageResponse delete(@PathVariable UUID id) {
         return messageCRUD.deleteById(id)
                 .orElseThrow(() -> messageNotFound(id));

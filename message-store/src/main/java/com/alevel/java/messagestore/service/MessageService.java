@@ -4,6 +4,8 @@ import com.alevel.java.messagestore.model.message.Message;
 import com.alevel.java.messagestore.model.message.MessageResponse;
 import com.alevel.java.messagestore.model.message.SaveMessageRequest;
 import com.alevel.java.messagestore.repository.MessageRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,11 @@ public class MessageService implements MessageCRUD {
 
     public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
+    }
+
+    @Override
+    public Page<MessageResponse> findAll(Pageable pageable) {
+        return messageRepository.findAll(pageable).map(MessageResponse::fromMessage);
     }
 
     @Override
