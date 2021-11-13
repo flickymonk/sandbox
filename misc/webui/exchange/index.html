@@ -108,46 +108,32 @@
 
 <script>
 
+    const retrieveBuyRate = (data, ccy) => data
+        .filter(value => value.ccy === ccy)
+        .map(value => parseFloat(value.buy))[0];
+
     //Get currency rates information
     axios.get('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11')
-        .then(function (response) {
-            var data = response.data;
+        .then(response => {
+            const data = response.data;
 
-            var usdToUahRate = retrieveBuyRate(data, 'USD');
+            const usdToUahRate = retrieveBuyRate(data, 'USD');
 
-            var calcUSD = document.getElementById('calc-usd');
-            var outUSD = document.getElementById('output-usd');
-            var inputUSD = document.getElementById('input-usd');
+            const calcUSD = document.getElementById('calc-usd');
+            const outUSD = document.getElementById('output-usd');
+            const inputUSD = document.getElementById('input-usd');
 
-            calcUSD.addEventListener('click', function () {
-                var value = inputUSD.value;
-                outUSD.value = (value * usdToUahRate) + ' UAH';
-            });
+            calcUSD.addEventListener('click', () => outUSD.value = (inputUSD.value * usdToUahRate) + ' UAH');
 
-            var eurToUahRate = retrieveBuyRate(data, 'EUR');
+            const eurToUahRate = retrieveBuyRate(data, 'EUR');
 
-            var calcEUR = document.getElementById('calc-eur');
-            var outEUR = document.getElementById('output-eur');
+            const calcEUR = document.getElementById('calc-eur');
+            const outEUR = document.getElementById('output-eur');
 
-            var inputEUR = document.getElementById('input-eur');
-            calcEUR.addEventListener('click', function () {
-                var value = inputEUR.value;
-                outEUR.value = (value * eurToUahRate) + ' UAH';
-            });
+            const inputEUR = document.getElementById('input-eur');
+            calcEUR.addEventListener('click', () => outEUR.value = (inputEUR.value * eurToUahRate) + ' UAH');
         })
-        .catch(function (reason) {
-            console.error(reason)
-        });
-
-    function retrieveBuyRate(data, ccy) {
-        return data
-            .filter(function (value) {
-                return value.ccy === ccy
-            })
-            .map(function (value) {
-                return parseFloat(value.buy)
-            })[0];
-    }
+        .catch(reason => console.error(reason));
 
 </script>
 </body>

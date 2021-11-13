@@ -64,6 +64,9 @@ const deleteDone = () => {
 
     //Get todos with [done] == true
     const done = state.todos.filter(todo => todo.done);
+    if (done.length === 0) {
+        return;
+    }
 
     //We use PUT request to "delete" todos, since DELETE method doesn't specify request body in HTTP standard
     //What is actually done is we set done to true in the database

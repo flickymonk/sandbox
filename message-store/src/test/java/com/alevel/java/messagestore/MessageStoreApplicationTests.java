@@ -1,26 +1,27 @@
 package com.alevel.java.messagestore;
 
-import com.alevel.java.messagestore.model.message.SaveMessageRequest;
 import com.alevel.java.messagestore.model.message.MessageResponse;
+import com.alevel.java.messagestore.model.message.SaveMessageRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.util.UriTemplate;
 
 import java.net.URI;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"h2db", "debug"})
 class MessageStoreApplicationTests {
-
-    @LocalServerPort
-    private int port;
 
     @Autowired
     private TestRestTemplate rest;
@@ -28,7 +29,6 @@ class MessageStoreApplicationTests {
     @Test
     void testContextLoads() {
         assertNotNull(rest);
-        assertNotEquals(0, port);
     }
 
     @Test
@@ -136,10 +136,9 @@ class MessageStoreApplicationTests {
         UUID id = message.id();
 
         var messageUrl = baseUrl(id);
-        var messageUri = URI.create(messageUrl);
 
         ResponseEntity<MessageResponse> messageResponseEntity = rest
-                .exchange(RequestEntity.delete(messageUri).build(), MessageResponse.class);
+                .exchange(RequestEntity.delete(messageUrl).build(), MessageResponse.class);
 
         assertEquals(HttpStatus.OK, messageResponseEntity.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, messageResponseEntity.getHeaders().getContentType());
@@ -152,7 +151,7 @@ class MessageStoreApplicationTests {
 
         assertEquals(HttpStatus.NOT_FOUND, rest.getForEntity(messageUrl, MessageResponse.class).getStatusCode());
         assertEquals(HttpStatus.NOT_FOUND, rest
-                .exchange(RequestEntity.delete(messageUri).build(), MessageResponse.class)
+                .exchange(RequestEntity.delete(messageUrl).build(), MessageResponse.class)
                 .getStatusCode());
     }
 
@@ -163,11 +162,11 @@ class MessageStoreApplicationTests {
         return rest.postForEntity(url, requestBody, MessageResponse.class);
     }
 
-    private String baseUrl() {
-        return "http://localhost:" + port + "/messages";
+    private URI baseUrl() {
+        return URI.create("/messages");
     }
 
-    private String baseUrl(UUID id) {
-        return baseUrl() + '/' + id;
+    private URI baseUrl(UUID id) {
+        return new UriTemplate("/messages/{id}").expand(id);
     }
 }
