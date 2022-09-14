@@ -1,5 +1,8 @@
 package com.alevel.sandbox.generics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WildCardDemo {
 
     public static void main(String[] args) {
@@ -12,7 +15,6 @@ public class WildCardDemo {
     private static <T extends Bar> void printHashCodeFromBox(Box<? super T> box) {
         System.out.println(box.getValue().hashCode());
     }
-
     private static class Foo {
     }
 
@@ -21,6 +23,5 @@ public class WildCardDemo {
 
     private static class Bazz {
     }
-
 
 }

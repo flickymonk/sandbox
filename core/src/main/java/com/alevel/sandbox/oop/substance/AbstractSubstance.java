@@ -4,11 +4,11 @@ abstract class AbstractSubstance implements Substance {
 
     private double t;
 
-    public AbstractSubstance() {
+    protected AbstractSubstance() {
         this(DEFAULT_TEMPERATURE);
     }
 
-    public AbstractSubstance(double t) {
+    protected AbstractSubstance(double t) {
         this.t = t;
     }
 

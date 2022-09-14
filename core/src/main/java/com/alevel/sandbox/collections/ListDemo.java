@@ -1,6 +1,7 @@
 package com.alevel.sandbox.collections;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ListDemo {
@@ -11,6 +12,8 @@ public class ListDemo {
         strings.add("foo");
         strings.add("bazz");
         strings.add("bar");
+
+        new LinkedList<String>();
 
         for (String string : strings) {
             System.out.println(string);

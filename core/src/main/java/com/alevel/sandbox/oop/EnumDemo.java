@@ -1,5 +1,6 @@
 package com.alevel.sandbox.oop;
 
+import java.util.List;
 import java.util.Random;
 
 public class EnumDemo {
@@ -15,19 +16,13 @@ public class EnumDemo {
         int index = new Random().nextInt(baseColors.length);
         BaseColor randomColor = baseColors[index];
 
-        switch (randomColor) {
-            case RED:
-                System.out.print("Apple");
-                break;
-            case GREEN:
-                System.out.print("Leaf");
-                break;
-            case BLUE:
-                System.out.print("Sky");
-                break;
-        }
+        String object = switch (randomColor) {
+            case RED -> "Apple";
+            case GREEN -> "Leaf";
+            case BLUE -> "Sky";
+        };
 
-        System.out.println(" is " + randomColor.name().toLowerCase());
+        System.out.println(object + " is " + randomColor.name().toLowerCase());
 
         System.out.println(BaseColor.RED.getHexValue());
 
@@ -44,10 +39,11 @@ public class EnumDemo {
 
         private final String hexValue;
 
+        private static final List<BaseColor> VALUES = List.of(values());
+
         public static BaseColor getByHex(String hexValue) {
             BaseColor result = null;
-            BaseColor[] baseColors = values();
-            for (BaseColor baseColor : baseColors) {
+            for (BaseColor baseColor : VALUES) {
                 String hex = baseColor.hexValue;
                 if (hex.equals(hexValue)) {
                     result = baseColor;

@@ -20,8 +20,11 @@ public class StreamDemo {
         IntStream even = IntStream
                 .iterate(2, i -> i + 2);
 
-        List<Integer> first100divBy4 = even.filter(i -> i % 4 == 0)
-                .limit(100).boxed().collect(Collectors.toList());
+        List<Integer> first100divBy4 = even
+                .filter(i -> i % 4 == 0)
+                .limit(100)
+                .boxed()
+                .collect(Collectors.toList());
 
         String first100divBy4String = first100divBy4.stream()
                 .map(String::valueOf)

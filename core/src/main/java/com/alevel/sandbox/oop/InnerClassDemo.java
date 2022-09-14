@@ -55,7 +55,8 @@ public class InnerClassDemo {
                 System.out.println("Hello from anonymous class");
                 return this;
             }
-        }.sayHello();
+        };
+        o.sayHello();
 
         System.out.println(o.getClass());
 

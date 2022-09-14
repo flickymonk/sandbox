@@ -12,6 +12,14 @@ public class OptionalDemo {
         Optional<String> nothing = Optional.empty();
         Optional<String> maybeSomething = maybeNull();
 
+        Integer value = something
+                .filter(s -> s.length() > 0)
+                .flatMap(OptionalDemo::removeTheThing)
+                .or(OptionalDemo::maybeNull)
+                .map(String::length)
+                .orElseThrow(() -> new IllegalArgumentException("do no such thing!"));
+        System.out.println(value);
+
         something.ifPresent(System.out::println);
         nothing.map(s -> {
             System.out.println("hi from side effect");
@@ -36,6 +44,11 @@ public class OptionalDemo {
         String s = UUID.randomUUID().toString();
         System.out.println("new rnd string generated: " + s);
         return s;
+    }
+
+    private static Optional<String> removeTheThing(String s) {
+        s = s.replace("thing", "");
+        return s.isEmpty() ? Optional.empty() : Optional.of(s);
     }
 
     private static Optional<String> maybeNull() {

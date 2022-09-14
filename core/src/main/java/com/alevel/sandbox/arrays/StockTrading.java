@@ -30,7 +30,7 @@ public class StockTrading {
         }
 
         System.out.println("Max profit is " + profit +
-                " with purchase on day " + purchaseDay +
-                " and sale on day " + saleDay);
+                " with purchase on day " + (purchaseDay + 1) +
+                " and sale on day " + (saleDay + 1));
     }
 }

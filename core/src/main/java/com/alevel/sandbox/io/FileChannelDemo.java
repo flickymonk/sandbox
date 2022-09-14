@@ -21,7 +21,7 @@ public class FileChannelDemo {
 //        buffer.put(newData.getBytes(StandardCharsets.UTF_8));
 //        buffer.flip();
 
-        try(FileChannel channel = FileChannel.open(path, WRITE, CREATE)) {
+        try(FileChannel channel = FileChannel.open(path, READ, WRITE, CREATE)) {
             while (buffer.hasRemaining()) {
                 channel.write(buffer);
             }

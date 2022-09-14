@@ -1,5 +1,7 @@
 package com.alevel.sandbox.collections;
 
+import java.time.DayOfWeek;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,5 +24,8 @@ public class MapDemo {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
+        Map<DayOfWeek, String> events = new EnumMap<>(DayOfWeek.class);
+        events.put(DayOfWeek.WEDNESDAY, "A-Level classes");
+        System.out.println(events);
     }
 }

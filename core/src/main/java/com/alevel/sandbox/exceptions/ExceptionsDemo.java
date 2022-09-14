@@ -17,6 +17,8 @@ public class ExceptionsDemo {
             throwChecked();
         } catch (CustomCheckedException e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("We are done");
         }
     }
 

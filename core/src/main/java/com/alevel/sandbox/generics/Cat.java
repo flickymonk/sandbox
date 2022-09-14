@@ -49,4 +49,13 @@ final class Cat {
                 ", alive=" + alive +
                 '}';
     }
+
+
+    public static final class AgeComparator implements Comparator<Cat> {
+
+        @Override
+        public int compare(Cat o1, Cat o2) {
+            return Integer.compare(o1.age, o2.age);
+        }
+    }
 }

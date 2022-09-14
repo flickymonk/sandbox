@@ -1,5 +1,7 @@
 package com.alevel.sandbox.generics;
 
+import java.io.IOException;
+
 public class BoxDemo {
 
     public static void main(String[] args) {
