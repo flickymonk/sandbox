@@ -1,14 +1,15 @@
 package com.alevel.sandbox.reflection;
 
 import java.lang.reflect.Field;
+import java.util.Scanner;
 
 public class PrivateFieldAccessDemo {
 
     public static void main(String[] args) {
-        Object instance = new PrivateFieldHolder();
 
         try {
-            Class<?> classOfInstance = instance.getClass();
+            Class<?> classOfInstance = Class.forName(new Scanner(System.in).nextLine());
+            Object instance = classOfInstance.getConstructor().newInstance();
 
             Field secret = classOfInstance.getDeclaredField("secret");
 
@@ -26,7 +27,7 @@ public class PrivateFieldAccessDemo {
                 System.out.println(secret.get(instance));
             }
 
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
 
