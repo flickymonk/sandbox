@@ -6,6 +6,7 @@ import com.alevel.jpabox.entity.PlayerClass;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,35 +26,35 @@ public class HibernateSessionFactoryDemo {
             try {
                 session.beginTransaction();
 
-                Query<?> deletePlayerClasses = session.createQuery("delete PlayerClass", Player.class);
+                MutationQuery deletePlayerClasses = session.createMutationQuery("delete PlayerClass");
                 deletePlayerClasses.executeUpdate();
 
-                Query<?> deletePlayers = session.createQuery("delete Player", Player.class);
+                MutationQuery deletePlayers = session.createMutationQuery("delete Player");
                 deletePlayers.executeUpdate();
 
                 Query<Player> listPlayers = session.createQuery("from Player", Player.class);
                 List<Player> players = listPlayers.list();
                 logger.info("Players: {}", players);
 
-                Query<?> deleteGuilds = session.createQuery("delete Guild", Guild.class);
+                MutationQuery deleteGuilds = session.createMutationQuery("delete Guild");
                 deleteGuilds.executeUpdate();
 
                 Guild alevel = new Guild("A Level");
-                session.saveOrUpdate(alevel);
+                session.persist(alevel);
 
                 Player p1 = new Player("void", 0, alevel);
                 alevel.addPlayer(p1);
-                session.saveOrUpdate(p1);
-                session.saveOrUpdate(alevel);
+                session.persist(p1);
+                session.persist(alevel);
 
                 var playerClass = new PlayerClass();
                 playerClass.setName("Warrior");
                 p1.getClasses().add(playerClass);
                 playerClass.getPlayers().add(p1);
 
-                session.save(playerClass);
+                session.persist(playerClass);
 
-                Guild guildByOurId = session.load(Guild.class, alevel.getId());
+                Guild guildByOurId = session.getReference(Guild.class, alevel.getId());
                 boolean onlyOurPlayer = guildByOurId.getPlayers().stream()
                         .allMatch(Predicate.isEqual(p1));
                 logger.info("Do we have our player: {}", onlyOurPlayer);

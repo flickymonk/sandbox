@@ -50,7 +50,6 @@ public class JpaEntityManagerDemo {
             guild.addPlayer(player);
 
             entityManager.persist(guild);
-            entityManager.merge(player);
 
             entityManager.getTransaction().commit();
         } catch (Exception e) {
@@ -67,10 +66,10 @@ public class JpaEntityManagerDemo {
     }
 
     private static void findNoobs(EntityManager entityManager) {
-        TypedQuery<Player> query = entityManager.createQuery("from Player where score = 0", Player.class);
-        List<Player> noobs = query.getResultList();
-        for (Player noob : noobs) {
-            log.info("{} is a noob", noob.getName());
+        TypedQuery<String> query = entityManager.createQuery("select p.name from Player p where score = 0", String.class);
+        List<String> noobs = query.getResultList();
+        for (String noob : noobs) {
+            log.info("{} is a noob", noob);
         }
     }
 
