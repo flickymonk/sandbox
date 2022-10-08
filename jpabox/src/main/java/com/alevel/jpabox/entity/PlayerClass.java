@@ -2,7 +2,7 @@ package com.alevel.jpabox.entity;
 
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
