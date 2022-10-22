@@ -9,7 +9,7 @@ public final class Memo<T> implements Supplier<T> {
 
     private volatile boolean initialized;
 
-    private volatile T value;
+    private T value;
 
     private Memo(Supplier<T> source) {
         this.source = source;

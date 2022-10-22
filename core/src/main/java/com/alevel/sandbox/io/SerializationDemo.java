@@ -11,13 +11,13 @@ public class SerializationDemo {
         Box box = new Box(10, 10, 10, "m1", "m2", "m3");
         System.out.println(box);
 
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(destination))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(destination))) {
             out.writeObject(box);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(destination))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(destination))) {
             Object o = in.readObject();
             if (o instanceof Box) {
                 Box deserializedBox = (Box) o;
@@ -33,7 +33,7 @@ public class SerializationDemo {
         File destination = new File(path);
 
         try {
-            if(!destination.createNewFile()) {
+            if (!destination.createNewFile()) {
                 System.err.println("File already exists");
             }
         } catch (IOException e) {

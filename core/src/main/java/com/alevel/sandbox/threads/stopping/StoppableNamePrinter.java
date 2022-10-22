@@ -2,7 +2,7 @@ package com.alevel.sandbox.threads.stopping;
 
 public class StoppableNamePrinter implements Runnable, Stoppable {
 
-    private volatile boolean running = true;
+    private boolean running = true;
 
     @Override
     public synchronized void stop() {

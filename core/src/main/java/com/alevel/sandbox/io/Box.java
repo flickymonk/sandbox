@@ -1,12 +1,14 @@
 package com.alevel.sandbox.io;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 final class Box implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+    @Serial
+    private static final long serialVersionUID = 8347897092261110505L;
 
     private double length;
     private double width;
