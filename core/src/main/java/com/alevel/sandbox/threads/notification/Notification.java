@@ -1,7 +1,6 @@
 package com.alevel.sandbox.threads.notification;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Notification {
 

@@ -96,7 +96,7 @@ public class ReadWriteLockingDemo {
             try {
                 return super.set(row, col, val);
             } finally {
-                lock.unlock(stamp);
+                lock.unlockWrite(stamp);
             }
         }
 
