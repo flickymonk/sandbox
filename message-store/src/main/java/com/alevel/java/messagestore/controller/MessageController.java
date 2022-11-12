@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -40,8 +42,11 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public MessageResponse create(@Valid @RequestBody SaveMessageRequest request) {
-        return messageCRUD.create(request);
+    public ResponseEntity<MessageResponse> create(@Valid @RequestBody SaveMessageRequest request, UriComponentsBuilder ucb) {
+        MessageResponse response = messageCRUD.create(request);
+        return ResponseEntity
+                .created(ucb.path("/messages/{id}").build(response.id()))
+                .body(response);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
