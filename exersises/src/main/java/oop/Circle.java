@@ -1,3 +1,5 @@
+package oop;
+
 public class Circle {
 
     private double radius;
@@ -33,7 +35,7 @@ public class Circle {
 
     @Override
     public String toString() {
-        return "Circle {" +
+        return "oop.Circle {" +
                 " radius = " + radius +
                 ", color = '" + color + '\'' +
                 '}';
