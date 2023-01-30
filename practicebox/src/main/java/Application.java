@@ -8,5 +8,4 @@ public class Application {
         Circle circle2 = new Circle(5, "Yellow");
         System.out.println(circle2.toString());
     }
-
 }
