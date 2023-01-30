@@ -7,7 +7,7 @@ public class Variables {
         String s;
 
         // won't compile - not defined
-        // System.out.println(s);
+        //System.out.println(s);
 
         // assignment: name = value;
         s = "string";
@@ -21,10 +21,11 @@ public class Variables {
         // won't compile - already defined in scope
         // String s = "another string";
         {
-            String scoped = "scoped string 1";
+            String scoped = "scoped string in method";
             System.out.println(scoped);
+
         }
-        String scoped = "scoped string 2";
+        String scoped = "scoped string out of method";
         System.out.println(scoped);
 
         //All object types can be null
@@ -36,7 +37,7 @@ public class Variables {
         System.out.println(s.length());
         System.out.println(s.concat("56"));
         System.out.println("   my string    \n".trim());
-        System.out.println(s.replace('3', 'z'));
+        System.out.println(s.replace('3', 'a'));
         System.out.println((s + "12").replace("12", "ab"));
         System.out.println("AAAAAAAA!".toLowerCase());
         System.out.println("aaaaaaaa!".toUpperCase());

@@ -22,10 +22,10 @@ public class JdbcBoxRunner {
 
         log.info("Connecting to {}", url);
 
-        try(Connection connection = DriverManager.getConnection(url, props)) {
+        try (Connection connection = DriverManager.getConnection(url, props)) {
             connection.setAutoCommit(false);
 
-            try(Statement getTime = connection.createStatement()) {
+            try (Statement getTime = connection.createStatement()) {
                 ResultSet resultSet = getTime.executeQuery("SELECT current_timestamp");
                 if (resultSet.next()) {
                     Timestamp timestamp = resultSet.getTimestamp(1);
@@ -33,7 +33,7 @@ public class JdbcBoxRunner {
                 }
             }
 
-            try(PreparedStatement getActiveNumbersAndNamesLike = connection.prepareStatement(
+            try (PreparedStatement getActiveNumbersAndNamesLike = connection.prepareStatement(
                     "SELECT phone_number, name FROM phonebook WHERE active = true AND phone_number LIKE ?")) {
 
                 getActiveNumbersAndNamesLike.setString(1, "380%");
@@ -55,7 +55,7 @@ public class JdbcBoxRunner {
                     new Contact("10438530326", "Carl Doe", "Son of John and Jane Doe")
             };
 
-            try(PreparedStatement insertContact = connection.prepareStatement(
+            try (PreparedStatement insertContact = connection.prepareStatement(
                     "INSERT INTO phonebook (phone_number, name, description, active) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
                     PreparedStatement.RETURN_GENERATED_KEYS
             )) {
@@ -91,7 +91,7 @@ public class JdbcBoxRunner {
 
         Properties props = new Properties();
 
-        try(InputStream input = JdbcBoxRunner.class.getResourceAsStream("/jdbc.properties")) {
+        try (InputStream input = JdbcBoxRunner.class.getResourceAsStream("/jdbc.properties")) {
             props.load(input);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
