@@ -23,5 +23,9 @@
         <module>jeebox</module>
         <module>message-store</module>
     </modules>
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+    </properties>
 
 </project>
