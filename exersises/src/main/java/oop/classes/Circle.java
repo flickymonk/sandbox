@@ -1,4 +1,4 @@
-package oop;
+package oop.classes;
 
 public class Circle {
 
@@ -35,7 +35,7 @@ public class Circle {
 
     @Override
     public String toString() {
-        return "oop.Circle {" +
+        return "oop.classes.Circle {" +
                 " radius = " + radius +
                 ", color = '" + color + '\'' +
                 '}';

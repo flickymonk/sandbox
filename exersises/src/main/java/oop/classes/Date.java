@@ -1,4 +1,4 @@
-package oop;
+package oop.classes;
 
 public class Date {
 
@@ -37,17 +37,16 @@ public class Date {
     }
 
     public void setDate(int day, int month, int year){
-        this.date = day;
-        this.month = month;
-        this.year = year;
+        setDate(day);
+        setMonth(month);
+        setYear(year);
     }
 
 
     @Override
     public String toString() {
-        return "{" + date +
+        return date +
                 "/" + month +
-                "/" + year +
-                "}";
+                "/" + year;
     }
 }
