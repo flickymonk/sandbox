@@ -14,6 +14,7 @@
         <module>core</module>
         <module>csvparser</module>
         <module>date-wizard</module>
+        <module>exercises</module>
         <module>jpabox</module>
         <module>springbox</module>
         <module>unittestbox</module>
