@@ -1,22 +1,22 @@
-package oop.composition;
+package oop.inheritance;
 
 public class Circle {
-    private int radius;
+    private double radius;
     private String color;
 
     public Circle() {
     }
 
-    public Circle(int radius) {
+    public Circle(double radius) {
         this.radius = radius;
     }
 
-    public Circle(int radius, String color) {
+    public Circle(double radius, String color) {
         this.radius = radius;
         this.color = color;
     }
 
-    public int getRadius() {
+    public double getRadius() {
         return radius;
     }
 

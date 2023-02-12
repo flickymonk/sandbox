@@ -1,10 +1,8 @@
 IN PROGRESS:
 
-OOP: core/src/com/alevel/sandbox/oop
+Generics: core/src/com/alevel/sandbox/generics
 
 NEED TO DO:
-Exceptions: core/src/com/alevel/sandbox/exceptions
-Generics: core/src/com/alevel/sandbox/generics
 Collections: core/src/com/alevel/sandbox/collections
 IO: core/src/com/alevel/sandbox/io
 Threads: core/src/com/alevel/sandbox/threads
@@ -18,3 +16,5 @@ Variables, Primitives, Literals, Operators: core/src/com/alevel/sandbox/basics
 Control Flow Statements: core/src/com/alevel/sandbox/flow
 Arrays: core/src/com/alevel/sandbox/arrays
 Recursion: core/src/com/alevel/sandbox/recursion
+OOP: core/src/com/alevel/sandbox/oop
+Exceptions: core/src/com/alevel/sandbox/exceptions
